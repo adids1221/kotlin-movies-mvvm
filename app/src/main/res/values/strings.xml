@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">movies-mvvm</string>
+    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur dolor dolorem eum iure molestiae perspiciatis porro quod veniam vitae voluptatibus! Aperiam dicta ea ipsum neque numquam quae sit veniam! Accusantium?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur dolor dolorem eum iure molestiae perspiciatis porro quod veniam vitae voluptatibus! Aperiam dicta ea ipsum neque numquam quae sit veniam! Accusantium?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur dolor dolorem eum iure molestiae perspiciatis porro quod veniam vitae voluptatibus! Aperiam dicta ea ipsum neque numquam quae sit veniam! Accusantium?</string>
+    <string name="fab_content_desc">Add New Movie</string>
 </resources>
