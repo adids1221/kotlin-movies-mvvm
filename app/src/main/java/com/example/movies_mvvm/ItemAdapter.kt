@@ -13,7 +13,6 @@ class ItemAdapter(private val items: List<Item>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Item) {
-//            Picasso.get().load(item.poster).into(binding.moviePoster)
             Glide
                 .with(binding.root)
                 .load(item.poster)
