@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,14 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="movie poster image"/>
+        android:contentDescription="@string/poster_dsc"/>
 
     <TextView
         android:id="@+id/movie_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Movie Title"
+        android:text="@string/movie_title_placeholder"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp"
@@ -33,9 +32,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Movie Release Date"
+        android:text="@string/movie_release_date_placeholder"
         android:textAlignment="center"
-        android:textColor="#FFEB3B"
+        android:textColor="@color/yellow_text"
         android:textSize="18sp" />
 
     <TextView
@@ -43,9 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Movie Rating"
+        android:text="@string/movie_rating_placeholder"
         android:textAlignment="center"
-        android:textColor="#FFEB3B"
+        android:textColor="@color/yellow_text"
         android:textSize="18sp" />
 
     <ScrollView
