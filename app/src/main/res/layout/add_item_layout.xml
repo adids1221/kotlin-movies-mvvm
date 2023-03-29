@@ -13,18 +13,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Add Item Page"
+        android:text="@string/add_item_page_title"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/add_movie_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="@string/movie_title_placeholder"
+        android:textColorHint="@color/white"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:inputType="text"
+        android:autofillHints="name"/>
 
     <Button
         android:id="@+id/add_item_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:text="Go back" />
+        android:text="@string/go_back_btn" />
 
 
 </LinearLayout>

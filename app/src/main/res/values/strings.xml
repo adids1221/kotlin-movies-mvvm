@@ -9,6 +9,6 @@
     <string name="movie_rating_placeholder"> Movie Rating</string>
     <string name="movie_dsc_placeholder"> Movie Description</string>
     <string name="all_items_layout_title">Movie Catalog</string>
-
-
+    <string name="add_item_page_title">Add Item Page</string>
+    <string name="go_back_btn">Go back</string>
 </resources>
