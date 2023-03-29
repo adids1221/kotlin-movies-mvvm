@@ -10,4 +10,6 @@
     <color name="dark_grey">#2D2D2D</color>
     <color name="white">#FFFFFF</color>
     <color name="yellow_text">#FFEB3B</color>
+    <color name="gold_rating_bar">#FFD700</color>
+    <color name="fab_color">#CBE4DE</color>
 </resources>
