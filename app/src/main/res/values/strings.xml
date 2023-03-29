@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">movies-mvvm</string>
+    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur dolor dolorem eum iure molestiae perspiciatis porro quod veniam vitae voluptatibus! Aperiam dicta ea ipsum neque numquam quae sit veniam! Accusantium?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur dolor dolorem eum iure molestiae perspiciatis porro quod veniam vitae voluptatibus! Aperiam dicta ea ipsum neque numquam quae sit veniam! Accusantium?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur dolor dolorem eum iure molestiae perspiciatis porro quod veniam vitae voluptatibus! Aperiam dicta ea ipsum neque numquam quae sit veniam! Accusantium?</string>
+    <string name="fab_content_desc">Add New Movie</string>
+    <string name="poster_dsc">movie poster image</string>
+    <string name="movie_title_placeholder">Movie Title</string>
+    <string name="movie_release_date_placeholder">
+    Movie Release Date</string>
+    <string name="movie_rating_placeholder"> Movie Rating</string>
+    <string name="movie_dsc_placeholder"> Movie Description</string>
+    <string name="all_items_layout_title">Movie Catalog</string>
+
+
 </resources>
