@@ -6,15 +6,15 @@
     android:background="@color/pale_black"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".MovieFragment" >
+    tools:context=".MovieFragment">
 
     <ImageView
         android:id="@+id/movie_poster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="@string/poster_dsc"/>
+        android:contentDescription="@string/poster_dsc"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/movie_title"
@@ -37,15 +37,15 @@
         android:textColor="@color/yellow_text"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/movie_rating"
+
+    <RatingBar
+        android:id="@+id/item_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/movie_rating_placeholder"
-        android:textAlignment="center"
-        android:textColor="@color/yellow_text"
-        android:textSize="18sp" />
+        android:numStars="5"
+        android:progressTint="@color/gold_rating_bar"
+        android:stepSize="0.5" />
 
     <ScrollView
         android:id="@+id/movie_description_scrollView"
@@ -58,8 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-         >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/movie_description"
