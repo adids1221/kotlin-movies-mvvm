@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.movies_mvvm.databinding.AddItemLayoutBinding
 
 class AddItemFragment : Fragment() {
@@ -20,8 +22,15 @@ class AddItemFragment : Fragment() {
         _binding = AddItemLayoutBinding.inflate(
             inflater, container, false
         )
-        return super.onCreateView(inflater, container, savedInstanceState)
+        binding.addItemBtn.setOnClickListener{
+            val bundle = bundleOf("title" to binding.addMovieTitle.text.toString())
+            findNavController().navigate(R.id.action_addItemFragment_to_allItemsFragment,bundle)
+        }
+        return binding.root
     }
+
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,3 +42,5 @@ class AddItemFragment : Fragment() {
     }
 
 }
+
+

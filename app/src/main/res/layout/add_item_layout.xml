@@ -19,6 +19,19 @@
         android:textSize="30sp"
         android:textStyle="bold" />
 
+    <EditText
+        android:id="@+id/add_movie_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Movie Title"
+        android:textColorHint="@color/white"
+        android:textAlignment="center"
+
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+
     <Button
         android:id="@+id/add_item_btn"
         android:layout_width="wrap_content"
