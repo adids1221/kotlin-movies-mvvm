@@ -1,16 +1,23 @@
 package com.example.movies_mvvm
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movies_mvvm.databinding.ItemLayoutBinding
+import utils.getRating
 
-class ItemAdapter(private val items: List<Item>) :
+
+class ItemAdapter(private val items: List<Item>, val callback: ItemListener) :
     RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
-    class ItemViewHolder(private val binding: ItemLayoutBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    interface ItemListener {
+        fun onItemClicked(index: Int)
+    }
+
+    inner class ItemViewHolder(private val binding: ItemLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         fun bind(item: Item) {
             Glide
@@ -24,15 +31,19 @@ class ItemAdapter(private val items: List<Item>) :
             binding.itemRatingBar.rating = item.rating?.let { getRating(it) }!!
         }
 
-        fun getRating(rating: Double): Float {
-            val maxRating = 5.0
-            val stepSize = 0.5
-            val numOfStars = 5
 
-            val numStars = (rating / (maxRating / numOfStars)).toFloat()
-
-            return (numStars * stepSize).toFloat()
+        init {
+            binding.root.setOnClickListener(this)
         }
+
+
+        override fun onClick(v: View?) {
+            callback.onItemClicked(adapterPosition)
+
+
+        }
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder =
