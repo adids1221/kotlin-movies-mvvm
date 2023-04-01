@@ -12,4 +12,5 @@
     <color name="yellow_text">#FFEB3B</color>
     <color name="gold_rating_bar">#FFD700</color>
     <color name="fab_color">#CBE4DE</color>
+    <color name="red_validation">#D61919</color>
 </resources>

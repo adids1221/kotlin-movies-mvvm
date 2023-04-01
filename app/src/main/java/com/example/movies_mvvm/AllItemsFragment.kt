@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies_mvvm.databinding.AllItemsLayoutBinding
-import utils.demoData
 
 class AllItemsFragment : Fragment() {
 
@@ -26,7 +25,7 @@ class AllItemsFragment : Fragment() {
         _binding = AllItemsLayoutBinding.inflate(
             inflater, container, false
         )
-        binding.floatingActionButton.setOnClickListener{
+        binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_allItemsFragment_to_addItemFragment)
         }
         return binding.root
@@ -34,22 +33,28 @@ class AllItemsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getString("title")?.let{
-            Toast.makeText(requireActivity(),it,Toast.LENGTH_LONG).show()
+        arguments?.getString("title")?.let {
+            Toast.makeText(requireActivity(), it, Toast.LENGTH_LONG).show()
         }
 
-        binding.recycler.adapter = ItemAdapter(demoData,object :ItemAdapter.ItemListener{
-            override fun onItemClicked(index: Int) {
-                val bundle = bundleOf("title" to demoData[index].title,
-                "description" to demoData[index].description,
-                "releaseDate" to demoData[index].releaseDate,
-                "rating" to demoData[index].rating,
-                "poster" to demoData[index].poster)
+        binding.recycler.adapter =
+            ItemAdapter(MovieItemManager.items, object : ItemAdapter.ItemListener {
+                override fun onItemClicked(index: Int) {
+                    val bundle = bundleOf(
+                        "title" to MovieItemManager.items[index].title,
+                        "description" to MovieItemManager.items[index].description,
+                        "releaseDate" to MovieItemManager.items[index].releaseDate,
+                        "rating" to MovieItemManager.items[index].rating,
+                        "poster" to MovieItemManager.items[index].poster
+                    )
 
-                findNavController().navigate(R.id.action_allItemsFragment_to_movieFragment,bundle)
-            }
+                    findNavController().navigate(
+                        R.id.action_allItemsFragment_to_movieFragment,
+                        bundle
+                    )
+                }
 
-        })
+            })
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
     }
 

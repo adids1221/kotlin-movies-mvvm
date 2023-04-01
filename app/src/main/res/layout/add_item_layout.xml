@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/pale_black"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".AddItemFragment"
-    android:gravity="center_horizontal">
+    tools:context=".AddItemFragment">
 
     <TextView
         android:id="@+id/add_item_title"
@@ -19,25 +20,112 @@
         android:textSize="30sp"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/add_movie_title"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        app:helperText="@string/required"
+        app:helperTextTextColor="@color/red_validation">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_movie_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="name"
+            android:hint="@string/movie_title_placeholder"
+            android:inputType="text"
+            android:lines="1"
+            android:textAlignment="center"
+            android:textColorHint="@color/white"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/add_movie_release_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/movie_release_date_placeholder"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_rating_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        app:helperText="@string/required_rating"
+        app:helperTextTextColor="@color/red_validation">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_movie_rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="name"
+            android:enabled="false"
+            android:hint="@string/movie_rating_placeholder"
+            android:inputType="numberDecimal"
+            android:lines="1"
+            android:textAlignment="center"
+            android:textColorHint="@color/white"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_description_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        app:helperText="@string/required"
+        app:helperTextTextColor="@color/red_validation">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_movie_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="name"
+            android:hint="@string/movie_dsc_placeholder"
+            android:inputType="text"
+            android:lines="1"
+            android:textAlignment="center"
+            android:textColorHint="@color/white"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <ImageView
+        android:id="@+id/result_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/insert_image"/>
+
+
+    <Button
+        android:id="@+id/image_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="@string/movie_title_placeholder"
-        android:textColorHint="@color/white"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:inputType="text"
-        android:autofillHints="name"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/insert_image"
+        android:textSize="12sp" />
+
 
     <Button
         android:id="@+id/add_item_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="@string/go_back_btn" />
-
+        android:layout_marginTop="20dp"
+        android:text="@string/save_movie_btn"
+        android:textSize="12sp" />
 
 </LinearLayout>
