@@ -1,5 +1,6 @@
 package com.example.movies_mvvm
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ class AllItemsFragment : Fragment() {
     private var _binding: AllItemsLayoutBinding? = null
 
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,8 +73,25 @@ class AllItemsFragment : Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                MovieItemManager.remove(viewHolder.adapterPosition)
-                binding.recycler.adapter!!.notifyItemRemoved(viewHolder.adapterPosition)
+                val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+
+                builder.apply {
+                    setTitle("Remove Confirmation")
+                    setMessage("Are you sure you want to remove this movie?")
+                    setCancelable(false)
+                    setPositiveButton("Remove") { p0, p1 ->
+                        MovieItemManager.remove(viewHolder.adapterPosition)
+                        binding.recycler.adapter!!.notifyItemRemoved(viewHolder.adapterPosition)
+                    }
+                    setNegativeButton("Cancel") { po, p1 ->
+                        binding.recycler.adapter!!.notifyItemChanged(viewHolder.adapterPosition)
+                    }
+
+
+                }.create()
+                builder.show()
+
+
             }
         }).attachToRecyclerView(binding.recycler)
     }
