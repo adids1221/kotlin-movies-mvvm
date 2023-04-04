@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        app:helperText="@string/required"
+        app:helperText=""
         app:helperTextTextColor="@color/red_validation">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -34,6 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="name"
+            android:drawableStart="@drawable/ic_baseline_title_24"
+            android:drawablePadding="5dp"
             android:hint="@string/movie_title_placeholder"
             android:inputType="text"
             android:lines="1"
@@ -43,16 +45,30 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/add_movie_release_date"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_release_date_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="@string/movie_release_date_placeholder"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        app:helperText=""
+        app:helperTextTextColor="@color/red_validation">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_movie_release_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="name"
+            android:drawableStart="@drawable/ic_baseline_date_range_24"
+            android:drawablePadding="5dp"
+            android:hint="@string/movie_release_date_placeholder"
+            android:inputType="text"
+            android:lines="1"
+            android:textAlignment="center"
+            android:textColorHint="@color/white"
+            android:textSize="16sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/add_rating_container"
@@ -60,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        app:helperText="@string/required_rating"
+        app:helperText=""
         app:helperTextTextColor="@color/red_validation">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -68,6 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="name"
+            android:drawableStart="@drawable/ic_baseline_star_24"
+            android:drawablePadding="5dp"
             android:enabled="false"
             android:hint="@string/movie_rating_placeholder"
             android:inputType="numberDecimal"
@@ -83,7 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        app:helperText="@string/required"
+        app:helperText=""
         app:helperTextTextColor="@color/red_validation">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -91,6 +109,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints="name"
+            android:drawableStart="@drawable/ic_baseline_text_fields_24"
+            android:drawablePadding="5dp"
             android:hint="@string/movie_dsc_placeholder"
             android:inputType="text"
             android:lines="1"
@@ -106,8 +126,8 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
-        android:src="@mipmap/ic_launcher"
-        android:contentDescription="@string/insert_image"/>
+        android:contentDescription="@string/insert_image"
+        android:src="@mipmap/ic_launcher" />
 
 
     <Button

@@ -45,10 +45,6 @@ class AddItemFragment : Fragment() {
             inflater, container, false
         )
 
-        titleFocusListener()
-        descriptionFocusListener()
-        ratingFocusListener()
-
         var isDateSelected = false
         val calendar = Calendar.getInstance()
 
@@ -58,10 +54,16 @@ class AddItemFragment : Fragment() {
             calendar.set(Calendar.DAY_OF_MONTH, day)
             val myFormat = "dd/MM/yyyy"
             val sdf = SimpleDateFormat(myFormat, Locale.FRENCH)
-            binding.addMovieReleaseDate.text = sdf.format(calendar.time)
+            binding.addMovieReleaseDate.setText(sdf.format(calendar.time))
             isDateSelected = true
-            if (!isFutureDate(binding.addMovieReleaseDate.text.toString()))
+            println("selected date: ${binding.addMovieReleaseDate.text.toString()}")
+            println("isFuture? ${isFutureDate(binding.addMovieReleaseDate.text.toString())}")
+            if (!isFutureDate(binding.addMovieReleaseDate.text.toString())) {
                 binding.addMovieRating.isEnabled = true
+            } else {
+                binding.addMovieRating.setText("")
+                binding.addMovieRating.isEnabled = false
+            }
         }
 
         val cYear = calendar.get(Calendar.YEAR)
@@ -78,10 +80,10 @@ class AddItemFragment : Fragment() {
             )
         }
 
-        binding.addMovieReleaseDate.setOnClickListener {
-            datePickerDialog?.show()
-        }
-
+        titleFocusListener()
+        descriptionFocusListener()
+        ratingFocusListener()
+        releaseDateFocusListener(datePickerDialog)
 
         binding.imageBtn.setOnClickListener {
             pickImageLauncher.launch(arrayOf("image/*"))
@@ -102,8 +104,9 @@ class AddItemFragment : Fragment() {
         val isValidTitle = binding.addTitleContainer.helperText == null
         val isValidDescription = binding.addDescriptionContainer.helperText == null
         val isValidRating = binding.addRatingContainer.helperText == null
+        val isValidPoster = validImage() == null
 
-        if (isDateSelected && isValidTitle && isValidDescription && isValidRating) {
+        if (isDateSelected && isValidTitle && isValidDescription && isValidRating && isValidPoster) {
             val title = binding.addMovieTitle.text.toString()
             val description = binding.addMovieDescription.text.toString()
             val releaseDate = binding.addMovieReleaseDate.text.toString()
@@ -126,16 +129,19 @@ class AddItemFragment : Fragment() {
 
     private fun invalidForm(isDateSelected: Boolean) {
         var message = ""
-        println("binding.addTitleContainer.helperText: ${binding.addTitleContainer.helperText}")
-        println("isDateSelected: $isDateSelected")
         if (binding.addTitleContainer.helperText != null)
             message += "\n\nTitle: " + binding.addTitleContainer.helperText
+        if (!isDateSelected) {
+            message += "\n\nRelease Date Is Required!"
+        } else if (binding.addReleaseDateContainer.helperText != null) {
+            message += "\n\nRelease Date: " + binding.addReleaseDateContainer.helperText
+        }
         if (binding.addDescriptionContainer.helperText != null)
             message += "\n\nDescription: " + binding.addDescriptionContainer.helperText
         if (binding.addRatingContainer.helperText != null)
             message += "\n\nRating: " + binding.addRatingContainer.helperText
-        if (!isDateSelected)
-            message += "\n\nSelect Movie Release Date"
+        if (imageUri == null)
+            message += "\n\nPoster: Missing Movie Poster"
 
         AlertDialog.Builder(binding.root.context).setTitle("Invalid From").setMessage(message)
             .setPositiveButton("Okay") { _, _ -> }.show()
@@ -154,6 +160,16 @@ class AddItemFragment : Fragment() {
         binding.addMovieTitle.setOnFocusChangeListener { _, focused ->
             if (!focused) {
                 binding.addTitleContainer.helperText = validTitle()
+            }
+        }
+    }
+
+    private fun releaseDateFocusListener(datePickerDialog: DatePickerDialog?) {
+        binding.addMovieReleaseDate.setOnFocusChangeListener { _, focused ->
+            if (focused) {
+                datePickerDialog?.show()
+            } else {
+                binding.addReleaseDateContainer.helperText = validReleaseDate()
             }
         }
     }
@@ -179,6 +195,11 @@ class AddItemFragment : Fragment() {
         return if (title.isEmpty()) "Invalid Movie Title" else null
     }
 
+    private fun validReleaseDate(): String? {
+        val title = binding.addMovieReleaseDate.text.toString()
+        return if (title.isEmpty()) "Invalid Movie Release Date" else null
+    }
+
     private fun validDescription(): String? {
         val description = binding.addMovieDescription.text.toString()
         return if (description.isEmpty()) "Invalid Movie Description" else null
@@ -202,13 +223,19 @@ class AddItemFragment : Fragment() {
         return null
     }
 
-    private fun isFutureDate(dateStr: String): Boolean {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH)
-        val date = dateFormat.parse(dateStr)
-        val currentTimeMillis = System.currentTimeMillis()
-        val currentDate = Date(currentTimeMillis)
-        return date!!.after(currentDate)
+    private fun validImage(): String? {
+        return if (imageUri == null) "Missing Movie Poster" else null
+    }
 
+    private fun isFutureDate(dateStr: String): Boolean {
+        if (!dateStr.isNullOrEmpty()) {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.FRENCH)
+            val date = dateFormat.parse(dateStr)
+            val currentTimeMillis = System.currentTimeMillis()
+            val currentDate = Date(currentTimeMillis)
+            return date!!.after(currentDate)
+        }
+        return false
     }
 
 
