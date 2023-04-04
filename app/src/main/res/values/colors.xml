@@ -13,4 +13,5 @@
     <color name="gold_rating_bar">#FFD700</color>
     <color name="fab_color">#CBE4DE</color>
     <color name="red_validation">#D61919</color>
+    <color name="disable_validation">#AAB1BD</color>
 </resources>
