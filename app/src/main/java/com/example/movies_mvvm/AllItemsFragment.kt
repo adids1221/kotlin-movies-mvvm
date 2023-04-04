@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.movies_mvvm.databinding.AllItemsLayoutBinding
 
 class AllItemsFragment : Fragment() {
@@ -33,9 +35,6 @@ class AllItemsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getString("title")?.let {
-            Toast.makeText(requireActivity(), it, Toast.LENGTH_LONG).show()
-        }
 
         binding.recycler.adapter =
             ItemAdapter(MovieItemManager.items, object : ItemAdapter.ItemListener {
@@ -56,6 +55,26 @@ class AllItemsFragment : Fragment() {
 
             })
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
+
+        ItemTouchHelper(object : ItemTouchHelper.Callback() {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) = makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.RIGHT)
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                MovieItemManager.remove(viewHolder.adapterPosition)
+                binding.recycler.adapter!!.notifyItemRemoved(viewHolder.adapterPosition)
+            }
+        }).attachToRecyclerView(binding.recycler)
     }
 
     override fun onDestroyView() {
