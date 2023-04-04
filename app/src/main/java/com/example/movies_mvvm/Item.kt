@@ -4,8 +4,8 @@ data class Item(
     val title: String,
     val description: String,
     val releaseDate: String,
-    val rating: Double?,
-    val poster: String?
+    val rating: Double,
+    val poster: String
 )
 
 object MovieItemManager {

@@ -58,6 +58,7 @@ class AddItemFragment : Fragment() {
             isDateSelected = true
             if (!isFutureDate(binding.addMovieReleaseDate.text.toString())) {
                 binding.addMovieRating.isEnabled = true
+                binding.addRatingContainer.helperText = "Rating isn't required, default value is 0"
             } else {
                 binding.addMovieRating.setText("")
                 binding.addMovieRating.isEnabled = false

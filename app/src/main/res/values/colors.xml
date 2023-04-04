@@ -6,12 +6,19 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="pale_black">#1D1D1D</color>
+    <color name="pale_black">#222831</color>
     <color name="dark_grey">#2D2D2D</color>
+    <color name="card_grey">#393E46</color>
     <color name="white">#FFFFFF</color>
-    <color name="yellow_text">#FFEB3B</color>
+    <color name="white_text">#EEEEEE</color>
+    <color name="yellow_text">#FFD369</color>
     <color name="gold_rating_bar">#FFD700</color>
-    <color name="fab_color">#CBE4DE</color>
-    <color name="red_validation">#D61919</color>
+    <color name="fab_color">#EEEEEE</color>
+    <color name="btn_light_blue">#EEEEEE</color>
+    <color name="btn_light_yellow">#FFD369</color>
+    <color name="btn_dark_blue">#222831</color>
+    <color name="btn_dark_grey">#393E46</color>
+    <color name="btn_off_white">#393E46</color>
+    <color name="red_validation">#C84B31</color>
     <color name="disable_validation">#AAB1BD</color>
 </resources>
