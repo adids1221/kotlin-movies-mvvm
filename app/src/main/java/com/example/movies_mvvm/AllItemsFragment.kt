@@ -1,5 +1,6 @@
 package com.example.movies_mvvm
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,9 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.movies_mvvm.databinding.AllItemsLayoutBinding
 
 class AllItemsFragment : Fragment() {
@@ -16,6 +19,7 @@ class AllItemsFragment : Fragment() {
     private var _binding: AllItemsLayoutBinding? = null
 
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,9 +37,6 @@ class AllItemsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getString("title")?.let {
-            Toast.makeText(requireActivity(), it, Toast.LENGTH_LONG).show()
-        }
 
         binding.recycler.adapter =
             ItemAdapter(MovieItemManager.items, object : ItemAdapter.ItemListener {
@@ -56,6 +57,43 @@ class AllItemsFragment : Fragment() {
 
             })
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
+
+        ItemTouchHelper(object : ItemTouchHelper.Callback() {
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) = makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.RIGHT)
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+
+                builder.apply {
+                    setTitle("Remove Confirmation")
+                    setMessage("Are you sure you want to remove this movie?")
+                    setCancelable(false)
+                    setPositiveButton("Remove") { p0, p1 ->
+                        MovieItemManager.remove(viewHolder.adapterPosition)
+                        binding.recycler.adapter!!.notifyItemRemoved(viewHolder.adapterPosition)
+                    }
+                    setNegativeButton("Cancel") { po, p1 ->
+                        binding.recycler.adapter!!.notifyItemChanged(viewHolder.adapterPosition)
+                    }
+
+
+                }.create()
+                builder.show()
+
+
+            }
+        }).attachToRecyclerView(binding.recycler)
     }
 
     override fun onDestroyView() {
