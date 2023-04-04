@@ -56,13 +56,13 @@ class AddItemFragment : Fragment() {
             val sdf = SimpleDateFormat(myFormat, Locale.FRENCH)
             binding.addMovieReleaseDate.setText(sdf.format(calendar.time))
             isDateSelected = true
-            println("selected date: ${binding.addMovieReleaseDate.text.toString()}")
-            println("isFuture? ${isFutureDate(binding.addMovieReleaseDate.text.toString())}")
             if (!isFutureDate(binding.addMovieReleaseDate.text.toString())) {
                 binding.addMovieRating.isEnabled = true
             } else {
                 binding.addMovieRating.setText("")
                 binding.addMovieRating.isEnabled = false
+                binding.addRatingContainer.helperText =
+                    "Rating isn't required, the movie isn't release yet!"
             }
         }
 
@@ -98,15 +98,17 @@ class AddItemFragment : Fragment() {
     private fun submitForm(isDateSelected: Boolean) {
 
         binding.addTitleContainer.helperText = validTitle()
+        binding.addReleaseDateContainer.helperText = validReleaseDate()
         binding.addDescriptionContainer.helperText = validDescription()
         binding.addRatingContainer.helperText = validRating()
 
         val isValidTitle = binding.addTitleContainer.helperText == null
+        val isValidDate = binding.addReleaseDateContainer.helperText == null && isDateSelected
         val isValidDescription = binding.addDescriptionContainer.helperText == null
         val isValidRating = binding.addRatingContainer.helperText == null
         val isValidPoster = validImage() == null
 
-        if (isDateSelected && isValidTitle && isValidDescription && isValidRating && isValidPoster) {
+        if (isValidTitle && isValidDate && isValidDescription && isValidRating && isValidPoster) {
             val title = binding.addMovieTitle.text.toString()
             val description = binding.addMovieDescription.text.toString()
             val releaseDate = binding.addMovieReleaseDate.text.toString()
@@ -196,8 +198,8 @@ class AddItemFragment : Fragment() {
     }
 
     private fun validReleaseDate(): String? {
-        val title = binding.addMovieReleaseDate.text.toString()
-        return if (title.isEmpty()) "Invalid Movie Release Date" else null
+        val releaseDate = binding.addMovieReleaseDate.text.toString()
+        return if (releaseDate.isEmpty()) "Invalid Movie Release Date" else null
     }
 
     private fun validDescription(): String? {
@@ -211,7 +213,6 @@ class AddItemFragment : Fragment() {
         val noNeedRating = rating == null && isFutureDate(releaseDate)
         val ratingForFuture = rating != null && isFutureDate(releaseDate)
         val invalidRating = rating != null && (rating < 0 || rating > 10)
-        println("rating: $rating, releaseDate: $releaseDate || noNeedRating? $noNeedRating || ratingForFuture: $ratingForFuture || invalidRating: $invalidRating")
         if (binding.addMovieRating.isEnabled) {
             if (noNeedRating)
                 return null
