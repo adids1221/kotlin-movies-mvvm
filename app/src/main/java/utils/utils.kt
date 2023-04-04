@@ -1,6 +1,6 @@
 package utils
 
-import com.example.movies_mvvm.Item
+import com.example.movies_mvvm.data.model.Item
 
 fun getRating(rating: Double): Float {
     val maxRating = 5.0

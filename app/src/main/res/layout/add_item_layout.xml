@@ -7,7 +7,7 @@
     android:background="@color/pale_black"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".AddItemFragment">
+    tools:context=".ui.add_movie.AddItemFragment">
 
     <TextView
         android:id="@+id/add_item_title"

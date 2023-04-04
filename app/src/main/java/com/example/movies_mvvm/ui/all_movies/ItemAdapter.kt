@@ -1,10 +1,11 @@
-package com.example.movies_mvvm
+package com.example.movies_mvvm.ui.all_movies
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.movies_mvvm.data.model.Item
 import com.example.movies_mvvm.databinding.ItemLayoutBinding
 import utils.getRating
 

@@ -1,4 +1,4 @@
-package com.example.movies_mvvm
+package com.example.movies_mvvm.ui.single_movie
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
@@ -31,7 +31,7 @@ class MovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getString("title")?.let {
+        /*arguments?.getString("title")?.let {
             binding.movieTitle.text = it
         }
         arguments?.getString("releaseDate")?.let {
@@ -50,7 +50,7 @@ class MovieFragment : Fragment() {
                 .load(it)
                 .centerCrop()
                 .into(binding.moviePoster)
-        }
+        }*/
 
     }
 
