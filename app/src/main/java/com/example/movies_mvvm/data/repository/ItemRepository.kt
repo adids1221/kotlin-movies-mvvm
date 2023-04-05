@@ -27,4 +27,8 @@ class ItemRepository(application: Application) {
 
     fun getItemByTitle(title: String) = itemDao?.getItemByTitle(title)
 
+    fun removeAll(){
+        itemDao?.removeAll()
+    }
+
 }

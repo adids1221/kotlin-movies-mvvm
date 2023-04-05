@@ -2,9 +2,8 @@ package com.example.movies_mvvm.ui.all_movies
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -30,6 +29,7 @@ class AllItemsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         _binding = AllItemsLayoutBinding.inflate(
             inflater, container, false
         )
@@ -114,12 +114,39 @@ class AllItemsFragment : Fragment() {
                     }
 
 
-                }.create()
-                builder.show()
+                }.show()
+
 
 
             }
         }).attachToRecyclerView(binding.recycler)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.action_remove_all){
+            val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+            builder.apply {
+                setTitle("Remove All Confirmation")
+                setMessage("Are you sure you want to remove all movies?")
+                setCancelable(false)
+                setPositiveButton("Remove All") { _, _ ->
+                    viewModel.removeAll()
+                    Toast.makeText(requireContext(),"Movies removed successfully",Toast.LENGTH_LONG).show()
+                }
+                setNegativeButton("Cancel") { _, _ ->
+
+                }
+
+
+            }.show()
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {

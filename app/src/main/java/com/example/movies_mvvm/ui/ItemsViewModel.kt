@@ -26,4 +26,8 @@ class ItemsViewModel(application: Application):AndroidViewModel(application) {
     fun removeItem(item: Item){
         repository.removeItem(item)
     }
+
+    fun removeAll(){
+        repository.removeAll()
+    }
 }

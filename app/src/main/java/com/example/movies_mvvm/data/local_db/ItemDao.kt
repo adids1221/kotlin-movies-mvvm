@@ -21,4 +21,7 @@ interface ItemDao {
 
     @Query("SELECT * from movies_table WHERE title =:title")
     fun getItemByTitle(title: String?): Item
+
+    @Query("DELETE from movies_table")
+    fun removeAll()
 }
