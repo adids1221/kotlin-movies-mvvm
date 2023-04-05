@@ -21,7 +21,7 @@ class AllItemsFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val viewModel : ItemsViewModel by activityViewModels()
+    private val viewModel: ItemsViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -43,21 +43,12 @@ class AllItemsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        viewModel.items?.observe(viewLifecycleOwner){
+        viewModel.items?.observe(viewLifecycleOwner) {
             binding.recycler.adapter =
                 ItemAdapter(it, object : ItemAdapter.ItemListener {
                     override fun onItemClicked(index: Int) {
-                        /*val bundle = bundleOf(
-                            "title" to it[index].title,
-                            "description" to it[index].description,
-                            "releaseDate" to it[index].releaseDate,
-                            "rating" to it[index].rating,
-                            "poster" to it[index].poster
-                        )*/
-                        val item =(binding.recycler.adapter as ItemAdapter).itemAt(index)
-                        viewModel.setItem(item)
 
-
+                        viewModel.setItem(it[index])
                         findNavController().navigate(
                             R.id.action_allItemsFragment_to_movieFragment
                         )
@@ -99,7 +90,8 @@ class AllItemsFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
-                val item =(binding.recycler.adapter as ItemAdapter).itemAt(viewHolder.adapterPosition)
+                val item =
+                    (binding.recycler.adapter as ItemAdapter).itemAt(viewHolder.adapterPosition)
 
                 builder.apply {
                     setTitle("Remove Confirmation")
@@ -117,18 +109,17 @@ class AllItemsFragment : Fragment() {
                 }.show()
 
 
-
             }
         }).attachToRecyclerView(binding.recycler)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu,menu)
+        inflater.inflate(R.menu.main_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.action_remove_all){
+        if (item.itemId == R.id.action_remove_all) {
             val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
             builder.apply {
                 setTitle("Remove All Confirmation")
@@ -136,7 +127,11 @@ class AllItemsFragment : Fragment() {
                 setCancelable(false)
                 setPositiveButton("Remove All") { _, _ ->
                     viewModel.removeAll()
-                    Toast.makeText(requireContext(),"Movies removed successfully",Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Movies removed successfully",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 setNegativeButton("Cancel") { _, _ ->
 

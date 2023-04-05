@@ -14,8 +14,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.movies_mvvm.data.model.Item
 import com.example.movies_mvvm.R
+import com.example.movies_mvvm.data.model.Item
 import com.example.movies_mvvm.databinding.AddItemLayoutBinding
 import com.example.movies_mvvm.ui.ItemsViewModel
 import java.text.SimpleDateFormat
@@ -28,8 +28,7 @@ class AddItemFragment : Fragment() {
 
     private var imageUri: Uri? = null
 
-    private val viewModel : ItemsViewModel by activityViewModels()
-
+    private val viewModel: ItemsViewModel by activityViewModels()
 
 
     private val pickImageLauncher: ActivityResultLauncher<Array<String>> =
@@ -103,6 +102,7 @@ class AddItemFragment : Fragment() {
         return binding.root
     }
 
+
     private fun submitForm(isDateSelected: Boolean) {
 
         binding.addTitleContainer.helperText = validTitle()
@@ -155,10 +155,6 @@ class AddItemFragment : Fragment() {
 
         AlertDialog.Builder(binding.root.context).setTitle("Invalid From").setMessage(message)
             .setPositiveButton("Okay") { _, _ -> }.show()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {

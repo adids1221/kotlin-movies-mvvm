@@ -38,7 +38,7 @@ class MovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.chosenItem.observe(viewLifecycleOwner){
+        viewModel.chosenItem.observe(viewLifecycleOwner) {
             binding.movieTitle.text = it.title
             binding.movieReleaseDate.text = it.releaseDate
             binding.movieDescription.text = it.description
@@ -49,8 +49,6 @@ class MovieFragment : Fragment() {
                 .centerCrop()
                 .into(binding.moviePoster)
         }
-
-
 
 
     }

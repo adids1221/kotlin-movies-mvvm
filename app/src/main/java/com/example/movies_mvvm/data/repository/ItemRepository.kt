@@ -12,7 +12,7 @@ class ItemRepository(application: Application) {
 
     init {
         val db = ItemDataBase.getDataBase(application.applicationContext)
-        itemDao = db?.itemsDao()
+        itemDao = db.itemsDao()
     }
 
     fun getItems() = itemDao?.getItems()
@@ -27,7 +27,7 @@ class ItemRepository(application: Application) {
 
     fun getItemByTitle(title: String) = itemDao?.getItemByTitle(title)
 
-    fun removeAll(){
+    fun removeAll() {
         itemDao?.removeAll()
     }
 
