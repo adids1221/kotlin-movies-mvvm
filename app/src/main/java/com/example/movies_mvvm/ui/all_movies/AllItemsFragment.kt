@@ -47,6 +47,23 @@ class AllItemsFragment : Fragment() {
             binding.recycler.adapter =
                 ItemAdapter(it, object : ItemAdapter.ItemListener {
                     override fun onItemClicked(index: Int) {
+                        /*val bundle = bundleOf(
+                            "title" to it[index].title,
+                            "description" to it[index].description,
+                            "releaseDate" to it[index].releaseDate,
+                            "rating" to it[index].rating,
+                            "poster" to it[index].poster
+                        )*/
+                        val item =(binding.recycler.adapter as ItemAdapter).itemAt(index)
+                        viewModel.setItem(item)
+
+
+                        findNavController().navigate(
+                            R.id.action_allItemsFragment_to_movieFragment
+                        )
+                    }
+
+                    override fun onItemLongClick(index: Int) {
                         val bundle = bundleOf(
                             "title" to it[index].title,
                             "description" to it[index].description,
@@ -54,19 +71,19 @@ class AllItemsFragment : Fragment() {
                             "rating" to it[index].rating,
                             "poster" to it[index].poster
                         )
-
                         findNavController().navigate(
-                            R.id.action_allItemsFragment_to_movieFragment,
+                            R.id.action_allItemsFragment_to_addItemFragment,
                             bundle
                         )
                     }
+
 
                 })
             binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         }
 
 
-       /* ItemTouchHelper(object : ItemTouchHelper.Callback() {
+        ItemTouchHelper(object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder
@@ -82,13 +99,14 @@ class AllItemsFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+                val item =(binding.recycler.adapter as ItemAdapter).itemAt(viewHolder.adapterPosition)
 
                 builder.apply {
                     setTitle("Remove Confirmation")
                     setMessage("Are you sure you want to remove this movie?")
                     setCancelable(false)
                     setPositiveButton("Remove") { _, _ ->
-                        MovieItemManager.remove(viewHolder.adapterPosition)
+                        viewModel.removeItem(item)
                         binding.recycler.adapter!!.notifyItemRemoved(viewHolder.adapterPosition)
                     }
                     setNegativeButton("Cancel") { _, _ ->
@@ -101,7 +119,7 @@ class AllItemsFragment : Fragment() {
 
 
             }
-        }).attachToRecyclerView(binding.recycler)*/
+        }).attachToRecyclerView(binding.recycler)
     }
 
     override fun onDestroyView() {
