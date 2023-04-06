@@ -1,10 +1,11 @@
-package com.example.movies_mvvm
+package com.example.movies_mvvm.ui.all_movies
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.movies_mvvm.data.model.Item
 import com.example.movies_mvvm.databinding.ItemLayoutBinding
 import utils.getRating
 
@@ -14,10 +15,12 @@ class ItemAdapter(private val items: List<Item>, val callback: ItemListener) :
 
     interface ItemListener {
         fun onItemClicked(index: Int)
+        fun onItemLongClick(index: Int)
+
     }
 
     inner class ItemViewHolder(private val binding: ItemLayoutBinding) :
-        RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+        RecyclerView.ViewHolder(binding.root), View.OnClickListener, View.OnLongClickListener {
 
         fun bind(item: Item) {
             Glide
@@ -34,6 +37,7 @@ class ItemAdapter(private val items: List<Item>, val callback: ItemListener) :
 
         init {
             binding.root.setOnClickListener(this)
+            binding.root.setOnLongClickListener(this)
         }
 
 
@@ -43,8 +47,15 @@ class ItemAdapter(private val items: List<Item>, val callback: ItemListener) :
 
         }
 
+        override fun onLongClick(p0:View?):Boolean{
+            callback.onItemLongClick(adapterPosition)
+            return true
+        }
+
 
     }
+
+    fun itemAt(position: Int) = items[position]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder =
         ItemViewHolder(

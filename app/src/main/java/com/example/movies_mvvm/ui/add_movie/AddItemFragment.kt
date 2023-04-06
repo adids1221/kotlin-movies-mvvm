@@ -1,4 +1,4 @@
-package com.example.movies_mvvm
+package com.example.movies_mvvm.ui.add_movie
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -12,8 +12,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.movies_mvvm.R
+import com.example.movies_mvvm.data.model.Item
 import com.example.movies_mvvm.databinding.AddItemLayoutBinding
+import com.example.movies_mvvm.ui.ItemsViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,6 +27,9 @@ class AddItemFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var imageUri: Uri? = null
+
+    private val viewModel: ItemsViewModel by activityViewModels()
+
 
     private val pickImageLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) {
@@ -95,6 +102,7 @@ class AddItemFragment : Fragment() {
         return binding.root
     }
 
+
     private fun submitForm(isDateSelected: Boolean) {
 
         binding.addTitleContainer.helperText = validTitle()
@@ -117,7 +125,7 @@ class AddItemFragment : Fragment() {
 
             val newMovie = Item(title, description, releaseDate, rating, imageUri.toString())
 
-            MovieItemManager.add(newMovie)
+            viewModel.addItem(newMovie)
             val bundle = bundleOf(
                 "title" to title,
                 "description" to description,
@@ -147,10 +155,6 @@ class AddItemFragment : Fragment() {
 
         AlertDialog.Builder(binding.root.context).setTitle("Invalid From").setMessage(message)
             .setPositiveButton("Okay") { _, _ -> }.show()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {

@@ -6,7 +6,7 @@
     android:background="@color/pale_black"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".MovieFragment">
+    tools:context=".ui.single_movie.MovieFragment">
 
     <ImageView
         android:id="@+id/movie_poster"

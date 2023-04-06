@@ -1,7 +1,8 @@
-package com.example.movies_mvvm
+package com.example.movies_mvvm.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.movies_mvvm.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
