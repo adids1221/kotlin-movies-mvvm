@@ -26,6 +26,12 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold" />
+<ImageView
+    android:layout_marginTop="16dp"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:src="@drawable/ic_baseline_date_range_24"
+    />
 
     <TextView
         android:id="@+id/movie_release_date"
@@ -43,10 +49,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:isIndicator="true"
         android:numStars="5"
         android:progressTint="@color/gold_rating_bar"
-        android:stepSize="0.5"
-        android:isIndicator="true"/>
+        android:stepSize="0.5" />
 
     <ScrollView
         android:id="@+id/movie_description_scrollView"
@@ -70,7 +76,7 @@
                 android:text="@string/dummy_text"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
     </ScrollView>
