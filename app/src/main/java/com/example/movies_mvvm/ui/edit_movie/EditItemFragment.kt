@@ -1,4 +1,4 @@
-package com.example.movies_mvvm.ui.add_movie
+package com.example.movies_mvvm.ui.edit_movie
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -13,22 +13,28 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.movies_mvvm.R
 import com.example.movies_mvvm.data.model.Item
-import com.example.movies_mvvm.databinding.AddItemLayoutBinding
+import com.example.movies_mvvm.databinding.EditItemLayoutBinding
 import com.example.movies_mvvm.ui.ItemsViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddItemFragment : Fragment() {
+class EditItemFragment : Fragment() {
 
-    private var _binding: AddItemLayoutBinding? = null
+    private var _binding: EditItemLayoutBinding? = null
     private val binding get() = _binding!!
 
     private var imageUri: Uri? = null
+    private var initialImageUri: String? = null
+    private var isDateSelected = false
+
+    private val calendar: Calendar = Calendar.getInstance()
+
+    private lateinit var datePickerDialog: DatePickerDialog
 
     private val viewModel: ItemsViewModel by activityViewModels()
-
 
     private val pickImageLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) {
@@ -46,15 +52,11 @@ class AddItemFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = AddItemLayoutBinding.inflate(
+    ): View {
+        _binding = EditItemLayoutBinding.inflate(
             inflater, container, false
         )
-
-        var isDateSelected = false
-        val calendar = Calendar.getInstance()
-
-        val listener = DatePickerDialog.OnDateSetListener { p0, year, month, day ->
+        val listener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, month)
             calendar.set(Calendar.DAY_OF_MONTH, day)
@@ -75,7 +77,7 @@ class AddItemFragment : Fragment() {
 
         val defaultDate = Calendar.getInstance()
 
-        val datePickerDialog = container?.let {
+        datePickerDialog = container?.let {
             DatePickerDialog(
                 it.context,
                 listener,
@@ -83,7 +85,7 @@ class AddItemFragment : Fragment() {
                 defaultDate.get(Calendar.MONTH),
                 defaultDate.get(Calendar.DAY_OF_MONTH)
             )
-        }
+        }!!
 
         titleFocusListener()
         descriptionFocusListener()
@@ -94,10 +96,39 @@ class AddItemFragment : Fragment() {
             pickImageLauncher.launch(arrayOf("image/*"))
         }
 
-        binding.addItemBtn.setOnClickListener {
+        binding.updateItemBtn.setOnClickListener {
             submitForm(isDateSelected)
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.chosenItem.observe(viewLifecycleOwner) {
+            val ratingText = String.format("%.1f", it.rating)
+            binding.addMovieTitle.setText(it.title)
+            binding.addMovieReleaseDate.setText(it.releaseDate)
+            binding.addMovieDescription.setText(it.description)
+            binding.addMovieRating.setText(if (ratingText == (0.0).toString()) null else ratingText)
+            Glide
+                .with(requireContext())
+                .load(it.poster)
+                .centerCrop()
+                .into(binding.resultImage)
+
+            val parts = it.releaseDate.split("/")
+            datePickerDialog.updateDate(
+                parts[2].toInt(),
+                parts[1].toInt() - 1,
+                parts[0].toInt()
+            )
+
+            initialImageUri = it.poster
+            isDateSelected = true
+            binding.addMovieRating.isEnabled = true
+        }
+
     }
 
 
@@ -114,17 +145,20 @@ class AddItemFragment : Fragment() {
         val isValidRating = binding.addRatingContainer.helperText == null
         val isValidPoster = validImage() == null
 
+
         if (isValidTitle && isValidDate && isValidDescription && isValidRating && isValidPoster) {
             val title = binding.addMovieTitle.text.toString()
             val description = binding.addMovieDescription.text.toString()
             val releaseDate = binding.addMovieReleaseDate.text.toString()
             val ratingText = binding.addMovieRating.text.toString()
             val rating = if (ratingText.isNotBlank()) ratingText.toDouble() else 0.0
+            val poster = if (imageUri == null) initialImageUri else imageUri.toString()
 
-            val newMovie = Item(title, description, releaseDate, rating, imageUri.toString())
+            val updatedMovie = Item(title, description, releaseDate, rating, poster)
 
-            viewModel.addItem(newMovie)
-            findNavController().navigate(R.id.action_addItemFragment_to_allItemsFragment)
+            viewModel.updateItem(updatedMovie)
+
+            findNavController().navigate(R.id.action_editItemFragment_to_allItemsFragment)
         } else
             invalidForm(isDateSelected)
     }
@@ -220,8 +254,8 @@ class AddItemFragment : Fragment() {
         return null
     }
 
-    private fun validImage(): String? {
-        return if (imageUri == null) "Missing Movie Poster" else null
+    private fun validImage(): Any? {
+        return if (binding.resultImage.drawable != null && (imageUri != null || initialImageUri != null)) null else "Missing Movie Poster"
     }
 
     private fun isFutureDate(dateStr: String): Boolean {

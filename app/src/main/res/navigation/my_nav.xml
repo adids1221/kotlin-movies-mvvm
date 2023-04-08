@@ -20,6 +20,13 @@
             android:id="@+id/action_allItemsFragment_to_movieFragment"
             app:destination="@id/movieFragment"
             app:enterAnim="@anim/fade_in" />
+        <action
+            android:id="@+id/action_allItemsFragment_to_editItemFragment"
+            app:destination="@id/editItemFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/addItemFragment"
@@ -41,4 +48,18 @@
         android:name="com.example.movies_mvvm.ui.single_movie.MovieFragment"
         android:label="movie_layout"
         tools:layout="@layout/movie_layout" />
+    <fragment
+        android:id="@+id/editItemFragment"
+        android:name="com.example.movies_mvvm.ui.edit_movie.EditItemFragment"
+        android:label="EditItemFragment">
+        <action
+            android:id="@+id/action_editItemFragment_to_allItemsFragment"
+            app:destination="@id/allItemsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/allItemsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

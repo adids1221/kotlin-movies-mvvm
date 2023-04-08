@@ -18,20 +18,8 @@ data class Item(
     @ColumnInfo(name = "rating")
     val rating: Double?,
     @ColumnInfo(name = "poster")
-    val poster: String?) : Parcelable {
-        @PrimaryKey(autoGenerate = true)
-        var id : Int = 0
-    }
-
-/*
-object MovieItemManager {
-    val items: MutableList<Item> = mutableListOf()
-
-    fun add(movieItem: Item) {
-        items.add(movieItem)
-    }
-
-    fun remove(position: Int) {
-        items.removeAt(position)
-    }
-}*/
+    val poster: String?
+) : Parcelable {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}

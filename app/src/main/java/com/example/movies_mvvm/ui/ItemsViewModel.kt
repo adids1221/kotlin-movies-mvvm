@@ -23,6 +23,11 @@ class ItemsViewModel(application: Application):AndroidViewModel(application) {
     fun addItem(item: Item){
         repository.addItem(item)
     }
+
+    fun updateItem(item: Item){
+        repository.updateItem(item)
+    }
+
     fun removeItem(item: Item){
         repository.removeItem(item)
     }
