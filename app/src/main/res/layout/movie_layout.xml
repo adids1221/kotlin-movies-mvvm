@@ -27,15 +27,29 @@
         android:textSize="30sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/movie_release_date"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/movie_release_date_placeholder"
-        android:textAlignment="center"
-        android:textColor="@color/yellow_text"
-        android:textSize="18sp" />
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/ic_baseline_date_range_24" />
+
+        <TextView
+            android:id="@+id/movie_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/movie_release_date_placeholder"
+            android:textAlignment="center"
+            android:textColor="@color/yellow_text"
+            android:textSize="18sp" />
+    </LinearLayout>
 
 
     <RatingBar
@@ -43,10 +57,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:isIndicator="true"
         android:numStars="5"
         android:progressTint="@color/gold_rating_bar"
-        android:stepSize="0.5"
-        android:isIndicator="true"/>
+        android:stepSize="0.5" />
 
     <ScrollView
         android:id="@+id/movie_description_scrollView"
@@ -70,7 +84,7 @@
                 android:text="@string/dummy_text"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
     </ScrollView>
