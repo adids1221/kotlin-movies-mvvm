@@ -30,6 +30,7 @@ class EditItemFragment : Fragment() {
     private var imageUri: Uri? = null
     private var initialImageUri: String? = null
     private var isDateSelected = false
+    private var movieId: Int? = null
 
     private val calendar: Calendar = Calendar.getInstance()
 
@@ -72,7 +73,7 @@ class EditItemFragment : Fragment() {
                 val isFuture = isFutureDate(text.toString())
                 binding.addMovieRating.apply {
                     isEnabled = !isFuture
-                    setText(if (isFuture) "" else "0")
+                    if (isFuture) setText("")
                 }
                 binding.addRatingContainer.helperText = when {
                     isFuture -> "Rating is disabled, the movie isn't release yet!"
@@ -121,6 +122,8 @@ class EditItemFragment : Fragment() {
                 .centerCrop()
                 .into(binding.resultImage)
 
+            movieId = it.id
+
             val parts = it.releaseDate.split("/")
             datePickerDialog.updateDate(
                 parts[2].toInt(),
@@ -136,10 +139,10 @@ class EditItemFragment : Fragment() {
     }
 
     private fun submitForm(isDateSelected: Boolean) {
-        val title = binding.addMovieTitle?.text?.toString()
-        val releaseDate = binding.addMovieReleaseDate?.text?.toString()
-        val description = binding.addMovieDescription?.text?.toString()
-        val ratingText = binding.addMovieRating?.text?.toString()
+        val title = binding.addMovieTitle.text?.toString()
+        val releaseDate = binding.addMovieReleaseDate.text?.toString()
+        val description = binding.addMovieDescription.text?.toString()
+        val ratingText = binding.addMovieRating.text?.toString()
         val rating = when {
             ratingText?.isNotBlank() == true -> ratingText.toDouble()
             else -> 0.0
@@ -161,8 +164,9 @@ class EditItemFragment : Fragment() {
         val isValidRating = binding.addRatingContainer.helperText == null
 
         if (isValidTitle && isValidDate && isValidDescription && isValidRating) {
-            val updatedMovie = Item(title!!, description!!, releaseDate!!, rating, poster)
-            viewModel.updateItem(updatedMovie)
+            val mMovie = Item(title!!, description!!, releaseDate, rating, poster)
+            mMovie.id = movieId!!
+            viewModel.updateItem(mMovie)
             findNavController().navigate(R.id.action_editItemFragment_to_allItemsFragment)
         } else {
             invalidForm(isDateSelected)
