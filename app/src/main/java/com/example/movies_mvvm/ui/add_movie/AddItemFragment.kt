@@ -99,15 +99,19 @@ class AddItemFragment : Fragment() {
         binding.addItemBtn.setOnClickListener {
             submitForm(isDateSelected)
         }
+
+        binding.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_addItemFragment_to_allItemsFragment)
+        }
         return binding.root
     }
 
 
     private fun submitForm(isDateSelected: Boolean) {
-        val title = binding.addMovieTitle?.text?.toString()
-        val releaseDate = binding.addMovieReleaseDate?.text?.toString()
-        val description = binding.addMovieDescription?.text?.toString()
-        val ratingText = binding.addMovieRating?.text?.toString()
+        val title = binding.addMovieTitle.text?.toString()
+        val releaseDate = binding.addMovieReleaseDate.text?.toString()
+        val description = binding.addMovieDescription.text?.toString()
+        val ratingText = binding.addMovieRating.text?.toString()
         val rating = when {
             ratingText?.isNotBlank() == true -> ratingText.toDouble()
             else -> 0.0
@@ -130,7 +134,7 @@ class AddItemFragment : Fragment() {
         val isValidPoster = poster == null
 
         if (isValidTitle && isValidDate && isValidDescription && isValidRating && isValidPoster) {
-            val newMovie = Item(title!!, description!!, releaseDate!!, rating, imageUri.toString())
+            val newMovie = Item(title!!, description!!, releaseDate, rating, imageUri.toString())
             viewModel.addItem(newMovie)
             findNavController().navigate(R.id.action_addItemFragment_to_allItemsFragment)
         } else {
