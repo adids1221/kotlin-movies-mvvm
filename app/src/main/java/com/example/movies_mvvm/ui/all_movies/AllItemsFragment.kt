@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -42,12 +41,10 @@ class AllItemsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewModel.items?.observe(viewLifecycleOwner) {
             binding.recycler.adapter =
                 ItemAdapter(it, object : ItemAdapter.ItemListener {
                     override fun onItemClicked(index: Int) {
-
                         viewModel.setItem(it[index])
                         findNavController().navigate(
                             R.id.action_allItemsFragment_to_movieFragment
@@ -55,16 +52,9 @@ class AllItemsFragment : Fragment() {
                     }
 
                     override fun onItemLongClick(index: Int) {
-                        val bundle = bundleOf(
-                            "title" to it[index].title,
-                            "description" to it[index].description,
-                            "releaseDate" to it[index].releaseDate,
-                            "rating" to it[index].rating,
-                            "poster" to it[index].poster
-                        )
+                        viewModel.setItem(it[index])
                         findNavController().navigate(
-                            R.id.action_allItemsFragment_to_addItemFragment,
-                            bundle
+                            R.id.action_allItemsFragment_to_editItemFragment
                         )
                     }
 
@@ -72,7 +62,6 @@ class AllItemsFragment : Fragment() {
                 })
             binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         }
-
 
         ItemTouchHelper(object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(

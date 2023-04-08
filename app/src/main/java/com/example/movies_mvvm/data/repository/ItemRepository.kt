@@ -15,17 +15,21 @@ class ItemRepository(application: Application) {
         itemDao = db.itemsDao()
     }
 
+    fun getItemByTitle(title: String) = itemDao?.getItemByTitle(title)
+
     fun getItems() = itemDao?.getItems()
 
     fun addItem(item: Item) {
         itemDao?.addItem(item)
     }
 
+    fun updateItem(item: Item) {
+        itemDao?.updateItem(item)
+    }
+
     fun removeItem(item: Item) {
         itemDao?.removeItem(item)
     }
-
-    fun getItemByTitle(title: String) = itemDao?.getItemByTitle(title)
 
     fun removeAll() {
         itemDao?.removeAll()

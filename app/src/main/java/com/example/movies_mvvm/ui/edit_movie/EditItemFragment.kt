@@ -1,4 +1,4 @@
-package com.example.movies_mvvm.ui.add_movie
+package com.example.movies_mvvm.ui.edit_movie
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -13,20 +13,28 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.movies_mvvm.R
 import com.example.movies_mvvm.data.model.Item
-import com.example.movies_mvvm.databinding.AddItemLayoutBinding
+import com.example.movies_mvvm.databinding.EditItemLayoutBinding
 import com.example.movies_mvvm.ui.ItemsViewModel
 import utils.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddItemFragment : Fragment() {
+class EditItemFragment : Fragment() {
 
-    private var _binding: AddItemLayoutBinding? = null
+    private var _binding: EditItemLayoutBinding? = null
     private val binding get() = _binding!!
 
     private var imageUri: Uri? = null
+    private var initialImageUri: String? = null
+    private var isDateSelected = false
+    private var movieId: Int? = null
+
+    private val calendar: Calendar = Calendar.getInstance()
+
+    private lateinit var datePickerDialog: DatePickerDialog
 
     private val viewModel: ItemsViewModel by activityViewModels()
 
@@ -46,13 +54,10 @@ class AddItemFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = AddItemLayoutBinding.inflate(
+    ): View {
+        _binding = EditItemLayoutBinding.inflate(
             inflater, container, false
         )
-
-        var isDateSelected = false
-        val calendar = Calendar.getInstance()
 
         val listener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
             calendar.apply {
@@ -68,7 +73,7 @@ class AddItemFragment : Fragment() {
                 val isFuture = isFutureDate(text.toString())
                 binding.addMovieRating.apply {
                     isEnabled = !isFuture
-                    setText(if (isFuture) "" else "0")
+                    if (isFuture) setText("")
                 }
                 binding.addRatingContainer.helperText = when {
                     isFuture -> "Rating is disabled, the movie isn't release yet!"
@@ -77,7 +82,7 @@ class AddItemFragment : Fragment() {
             }
         }
 
-        val datePickerDialog = container?.let {
+        datePickerDialog = container?.let {
             DatePickerDialog(
                 it.context,
                 listener,
@@ -85,7 +90,7 @@ class AddItemFragment : Fragment() {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
             )
-        }
+        }!!
 
         titleFocusListener()
         descriptionFocusListener()
@@ -96,23 +101,53 @@ class AddItemFragment : Fragment() {
             pickImageLauncher.launch(arrayOf("image/*"))
         }
 
-        binding.addItemBtn.setOnClickListener {
+        binding.updateItemBtn.setOnClickListener {
             submitForm(isDateSelected)
         }
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.chosenItem.observe(viewLifecycleOwner) {
+            val ratingText = String.format("%.1f", it.rating)
+            binding.addMovieTitle.setText(it.title)
+            binding.addMovieReleaseDate.setText(it.releaseDate)
+            binding.addMovieDescription.setText(it.description)
+            binding.addMovieRating.setText(if (ratingText == (0.0).toString()) null else ratingText)
+            Glide
+                .with(requireContext())
+                .load(it.poster)
+                .centerCrop()
+                .into(binding.resultImage)
+
+            movieId = it.id
+
+            val parts = it.releaseDate.split("/")
+            datePickerDialog.updateDate(
+                parts[2].toInt(),
+                parts[1].toInt() - 1,
+                parts[0].toInt()
+            )
+
+            initialImageUri = it.poster
+            isDateSelected = true
+            binding.addMovieRating.isEnabled = true
+        }
+
+    }
 
     private fun submitForm(isDateSelected: Boolean) {
-        val title = binding.addMovieTitle?.text?.toString()
-        val releaseDate = binding.addMovieReleaseDate?.text?.toString()
-        val description = binding.addMovieDescription?.text?.toString()
-        val ratingText = binding.addMovieRating?.text?.toString()
+        val title = binding.addMovieTitle.text?.toString()
+        val releaseDate = binding.addMovieReleaseDate.text?.toString()
+        val description = binding.addMovieDescription.text?.toString()
+        val ratingText = binding.addMovieRating.text?.toString()
         val rating = when {
             ratingText?.isNotBlank() == true -> ratingText.toDouble()
             else -> 0.0
         }
-        val poster = if (imageUri == null) "Missing Movie Poster" else null
+        val poster = if (imageUri == null) initialImageUri else imageUri.toString()
 
         binding.addTitleContainer.helperText = title?.let { validTitle(it) }
         binding.addReleaseDateContainer.helperText = releaseDate?.let { validReleaseDate(it) }
@@ -127,12 +162,12 @@ class AddItemFragment : Fragment() {
         val isValidDate = binding.addReleaseDateContainer.helperText == null && isDateSelected
         val isValidDescription = binding.addDescriptionContainer.helperText == null
         val isValidRating = binding.addRatingContainer.helperText == null
-        val isValidPoster = poster == null
 
-        if (isValidTitle && isValidDate && isValidDescription && isValidRating && isValidPoster) {
-            val newMovie = Item(title!!, description!!, releaseDate!!, rating, imageUri.toString())
-            viewModel.addItem(newMovie)
-            findNavController().navigate(R.id.action_addItemFragment_to_allItemsFragment)
+        if (isValidTitle && isValidDate && isValidDescription && isValidRating) {
+            val mMovie = Item(title!!, description!!, releaseDate, rating, poster)
+            mMovie.id = movieId!!
+            viewModel.updateItem(mMovie)
+            findNavController().navigate(R.id.action_editItemFragment_to_allItemsFragment)
         } else {
             invalidForm(isDateSelected)
         }

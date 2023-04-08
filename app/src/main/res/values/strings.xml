@@ -1,16 +1,21 @@
 <resources>
     <string name="app_name">movies-mvvm</string>
+    <string name="all_items_layout_title">Movie Catalog</string>
+    <string name="add_item_page_title">Add Movie</string>
+    <string name="edit_item_page_title">Edit Movie</string>
     <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur dolor dolorem eum iure molestiae perspiciatis porro quod veniam vitae voluptatibus!</string>
     <string name="fab_content_desc">Add New Movie</string>
-    <string name="poster_dsc">movie poster image</string>
+    <string name="poster_desc">movie poster image</string>
     <string name="movie_title_placeholder">Movie Title</string>
     <string name="movie_release_date_placeholder">Movie Release Date</string>
     <string name="movie_rating_placeholder"> Movie Rating</string>
     <string name="movie_dsc_placeholder"> Movie Description</string>
-    <string name="all_items_layout_title">Movie Catalog</string>
-    <string name="add_item_page_title">Add Movie</string>
     <string name="save_movie_btn">Submit</string>
+    <string name="update_movie_btn">Update</string>
     <string name="required">Required</string>
     <string name="required_rating">Required, If the movie isn\'t release yet leave this filed empty</string>
     <string name="insert_image">Pick Image</string>
+
+
+
 </resources>
