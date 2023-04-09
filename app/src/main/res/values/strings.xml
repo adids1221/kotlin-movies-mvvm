@@ -15,7 +15,7 @@
     <string name="required">Required</string>
     <string name="required_rating">Required, If the movie isn\'t release yet leave this filed empty</string>
     <string name="insert_image">Pick Image</string>
-
+    <string name="generic_btn">Generic Btn</string>
 
 
 </resources>

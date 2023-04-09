@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.movies_mvvm.R
 import com.example.movies_mvvm.databinding.MovieLayoutBinding
 import com.example.movies_mvvm.ui.ItemsViewModel
 import utils.getRating
@@ -32,6 +34,9 @@ class MovieFragment : Fragment() {
         val rotationImage: Animator =
             ObjectAnimator.ofFloat(binding.moviePoster, "rotationY", 0f, 360f).setDuration(2000)
         rotationImage.start()
+        binding.editButton.setOnClickListener {
+            findNavController().navigate(R.id.action_movieFragment_to_editItemFragment)
+        }
         return binding.root
     }
 

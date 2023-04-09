@@ -104,6 +104,10 @@ class EditItemFragment : Fragment() {
         binding.updateItemBtn.setOnClickListener {
             submitForm(isDateSelected)
         }
+
+        binding.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_editItemFragment_to_allItemsFragment)
+        }
         return binding.root
     }
 
