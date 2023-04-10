@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_movieFragment_to_editItemFragment"
             app:destination="@id/editItemFragment" />
+        <action
+            android:id="@+id/action_movieFragment_to_allItemsFragment"
+            app:destination="@id/allItemsFragment" />
     </fragment>
     <fragment
         android:id="@+id/editItemFragment"
