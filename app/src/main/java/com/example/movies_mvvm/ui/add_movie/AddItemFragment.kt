@@ -18,15 +18,16 @@ import com.example.movies_mvvm.data.model.Item
 import com.example.movies_mvvm.databinding.AddItemLayoutBinding
 import com.example.movies_mvvm.ui.ItemsViewModel
 import utils.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 class AddItemFragment : Fragment() {
 
     private var _binding: AddItemLayoutBinding? = null
     private val binding get() = _binding!!
-
     private var imageUri: Uri? = null
+    private var isDateSelected = false
+    private val calendar: Calendar = Calendar.getInstance()
+    private lateinit var datePickerDialog: DatePickerDialog
 
     private val viewModel: ItemsViewModel by activityViewModels()
 
@@ -51,33 +52,13 @@ class AddItemFragment : Fragment() {
             inflater, container, false
         )
 
-        var isDateSelected = false
-        val calendar = Calendar.getInstance()
-
-        val listener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-            calendar.apply {
-                set(Calendar.YEAR, year)
-                set(Calendar.MONTH, month)
-                set(Calendar.DAY_OF_MONTH, day)
-            }
-            val myFormat = "dd/MM/yyyy"
-            val sdf = SimpleDateFormat(myFormat, Locale.FRENCH)
-            binding.addMovieReleaseDate.apply {
-                setText(sdf.format(calendar.time))
-                isDateSelected = true
-                val isFuture = isFutureDate(text.toString())
-                binding.addMovieRating.apply {
-                    isEnabled = !isFuture
-                    setText(if (isFuture) "" else "0")
-                }
-                binding.addRatingContainer.helperText = when {
-                    isFuture -> "Rating is disabled, the movie isn't release yet!"
-                    else -> "Rating isn't required, default value is 0"
-                }
-            }
+        val listener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            isDateSelected = true
+            calendar.set(year, month, dayOfMonth)
+            getDateSetListener(binding, calendar).onDateSet(null, year, month, dayOfMonth)
         }
 
-        val datePickerDialog = container?.let {
+        datePickerDialog = container?.let {
             DatePickerDialog(
                 it.context,
                 listener,
@@ -85,7 +66,7 @@ class AddItemFragment : Fragment() {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
             )
-        }
+        }!!
 
         titleFocusListener()
         descriptionFocusListener()
