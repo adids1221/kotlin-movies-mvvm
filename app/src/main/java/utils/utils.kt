@@ -1,6 +1,9 @@
 package utils
 
 import android.app.DatePickerDialog
+import androidx.viewbinding.ViewBinding
+import com.example.movies_mvvm.databinding.AddItemLayoutBinding
+import com.example.movies_mvvm.databinding.EditItemLayoutBinding
 import android.widget.EditText
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
@@ -52,6 +55,48 @@ fun validRating(movieRating: String, isEnabled: Boolean, releaseDate: String): S
     }
     return null
 }
+
+fun getDateSetListener(
+    binding: ViewBinding,
+    calendar: Calendar
+): DatePickerDialog.OnDateSetListener {
+    return DatePickerDialog.OnDateSetListener { _, _, _, _ ->
+        val myFormat = "dd/MM/yyyy"
+        val sdf = SimpleDateFormat(myFormat, Locale.FRENCH)
+        val ratingContainerText = mapOf(
+            true to "Rating is disabled, the movie isn't release yet!",
+            false to "Rating isn't required, default value is 0"
+        )
+        when (binding) {
+            is AddItemLayoutBinding -> {
+                binding.addMovieReleaseDate.apply {
+                    setText(sdf.format(calendar.time))
+                    clearFocus()
+                    val isFuture = isFutureDate(text.toString())
+                    binding.addMovieRating.apply {
+                        isEnabled = !isFuture
+                        setText("0")
+                    }
+                    binding.addRatingContainer.helperText = ratingContainerText[isFuture]
+                }
+            }
+            is EditItemLayoutBinding -> {
+                binding.addMovieReleaseDate.apply {
+                    setText(sdf.format(calendar.time))
+                    clearFocus()
+                    val isFuture = isFutureDate(text.toString())
+                    binding.addMovieRating.apply {
+                        isEnabled = !isFuture
+                        if (isFuture || text.toString().isEmpty()) setText("0")
+                    }
+                    binding.addRatingContainer.helperText = ratingContainerText[isFuture]
+                }
+            }
+        }
+    }
+}
+
+
 
 fun EditText.addTitleFocusListener(titleContainer: TextInputLayout) {
     this.setOnFocusChangeListener { _, focused ->
