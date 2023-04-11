@@ -68,10 +68,16 @@ class AddItemFragment : Fragment() {
             )
         }!!
 
-        titleFocusListener()
-        descriptionFocusListener()
-        ratingFocusListener()
-        releaseDateFocusListener(datePickerDialog)
+        binding.addMovieTitle.addTitleFocusListener(binding.addTitleContainer)
+        binding.addMovieReleaseDate.addReleaseDateFocusListener(
+            datePickerDialog,
+            binding.addReleaseDateContainer
+        )
+        binding.addMovieDescription.addDescriptionFocusListener(binding.addDescriptionContainer)
+        binding.addMovieRating.addRatingFocusListener(
+            binding.addMovieReleaseDate,
+            binding.addRatingContainer
+        )
 
         binding.imageBtn.setOnClickListener {
             pickImageLauncher.launch(arrayOf("image/*"))
@@ -162,45 +168,5 @@ class AddItemFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun titleFocusListener() {
-        binding.addMovieTitle.setOnFocusChangeListener { _, focused ->
-            if (!focused) {
-                binding.addTitleContainer.helperText = validTitle(binding.addMovieTitle.toString())
-            }
-        }
-    }
-
-    private fun releaseDateFocusListener(datePickerDialog: DatePickerDialog?) {
-        binding.addMovieReleaseDate.setOnFocusChangeListener { _, focused ->
-            if (focused) {
-                datePickerDialog?.show()
-            } else {
-                binding.addReleaseDateContainer.helperText =
-                    validReleaseDate(binding.addMovieReleaseDate.toString())
-            }
-        }
-    }
-
-    private fun descriptionFocusListener() {
-        binding.addMovieDescription.setOnFocusChangeListener { _, focused ->
-            if (!focused) {
-                binding.addDescriptionContainer.helperText =
-                    validDescription(binding.addMovieDescription.toString())
-            }
-        }
-    }
-
-    private fun ratingFocusListener() {
-        binding.addMovieRating.setOnFocusChangeListener { _, focused ->
-            if (!focused) {
-                binding.addRatingContainer.helperText = validRating(
-                    binding.addMovieRating.toString(),
-                    binding.addMovieRating.isEnabled,
-                    binding.addMovieReleaseDate.toString()
-                )
-            }
-        }
     }
 }

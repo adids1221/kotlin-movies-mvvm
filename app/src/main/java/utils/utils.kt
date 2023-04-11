@@ -4,6 +4,8 @@ import android.app.DatePickerDialog
 import androidx.viewbinding.ViewBinding
 import com.example.movies_mvvm.databinding.AddItemLayoutBinding
 import com.example.movies_mvvm.databinding.EditItemLayoutBinding
+import android.widget.EditText
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -95,3 +97,48 @@ fun getDateSetListener(
 }
 
 
+
+fun EditText.addTitleFocusListener(titleContainer: TextInputLayout) {
+    this.setOnFocusChangeListener { _, focused ->
+        if (!focused) {
+            val helperText = validTitle(this.text.toString())
+            titleContainer.helperText = helperText
+        }
+    }
+}
+
+fun EditText.addReleaseDateFocusListener(
+    datePickerDialog: DatePickerDialog?,
+    releaseDateContainer: TextInputLayout
+) {
+    this.setOnFocusChangeListener { _, focused ->
+        if (focused) {
+            datePickerDialog?.show()
+        } else {
+            val helperText = validReleaseDate(this.text.toString())
+            releaseDateContainer.helperText = helperText
+        }
+    }
+}
+
+fun EditText.addDescriptionFocusListener(descriptionContainer: TextInputLayout) {
+    this.setOnFocusChangeListener { _, focused ->
+        if (!focused) {
+            val helperText = validDescription(this.text.toString())
+            descriptionContainer.helperText = helperText
+        }
+    }
+}
+
+fun EditText.addRatingFocusListener(releaseDate: EditText, ratingContainer: TextInputLayout) {
+    this.setOnFocusChangeListener { view, focused ->
+        if (!focused) {
+            val helperText = validRating(
+                this.text.toString(),
+                this.isEnabled,
+                releaseDate.text.toString()
+            )
+            ratingContainer.helperText = helperText
+        }
+    }
+}

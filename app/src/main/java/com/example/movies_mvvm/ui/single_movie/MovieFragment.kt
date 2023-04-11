@@ -37,6 +37,9 @@ class MovieFragment : Fragment() {
         binding.editButton.setOnClickListener {
             findNavController().navigate(R.id.action_movieFragment_to_editItemFragment)
         }
+        binding.backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_movieFragment_to_allItemsFragment)
+        }
         return binding.root
     }
 
