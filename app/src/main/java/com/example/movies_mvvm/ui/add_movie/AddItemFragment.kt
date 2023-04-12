@@ -1,6 +1,5 @@
 package com.example.movies_mvvm.ui.add_movie
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
@@ -103,66 +102,20 @@ class AddItemFragment : Fragment() {
             ratingText?.isNotBlank() == true -> ratingText.toDouble()
             else -> 0.0
         }
-        val poster = if (imageUri == null) "Missing Movie Poster" else null
-
-        binding.addTitleContainer.helperText = title?.let { validTitle(it) }
-        binding.addReleaseDateContainer.helperText = releaseDate?.let { validReleaseDate(it) }
-        binding.addDescriptionContainer.helperText = description?.let { validDescription(it) }
-        binding.addRatingContainer.helperText = validRating(
-            ratingText!!,
-            binding.addMovieRating.isEnabled,
-            releaseDate!!
-        )
-
-        val isValidTitle = binding.addTitleContainer.helperText == null
-        val isValidDate = binding.addReleaseDateContainer.helperText == null && isDateSelected
-        val isValidDescription = binding.addDescriptionContainer.helperText == null
-        val isValidRating = binding.addRatingContainer.helperText == null
-        val isValidPoster = poster == null
-
-        if (isValidTitle && isValidDate && isValidDescription && isValidRating && isValidPoster) {
-            val newMovie = Item(title!!, description!!, releaseDate, rating, imageUri.toString())
+        val imageSource = if (imageUri == null) "Missing Movie Poster" else null
+        if (validFormFields(
+                binding,
+                isDateSelected,
+                MovieData(title, releaseDate, description, ratingText, imageSource)
+            )
+        ) {
+            val newMovie =
+                Item(title!!, description!!, releaseDate!!, rating, imageUri.toString())
             viewModel.addItem(newMovie)
             findNavController().navigate(R.id.action_addItemFragment_to_allItemsFragment)
         } else {
-            invalidForm(isDateSelected)
+            invalidForm(isDateSelected, imageUri?.let { imageUri.toString() } ?: null, binding)
         }
-    }
-
-    private fun invalidForm(isDateSelected: Boolean) {
-        val errorMessage = mutableListOf<String>()
-
-        binding.addTitleContainer.helperText?.let {
-            errorMessage.add("Title: $it")
-        }
-
-        if (!isDateSelected) {
-            errorMessage.add("Release Date Is Required!")
-        } else {
-            binding.addReleaseDateContainer.helperText?.let {
-                errorMessage.add("Release Date: $it")
-            }
-        }
-
-        binding.addDescriptionContainer.helperText?.let {
-            errorMessage.add("Description: $it")
-        }
-
-        binding.addRatingContainer.helperText?.let {
-            errorMessage.add("Rating: $it")
-        }
-
-        if (imageUri == null) {
-            errorMessage.add("Poster: Missing Movie Poster")
-        }
-
-        val message = errorMessage.joinToString(separator = "\n")
-
-        AlertDialog.Builder(binding.root.context)
-            .setTitle("Invalid Form")
-            .setMessage(message)
-            .setPositiveButton("Okay") { _, _ -> }
-            .show()
     }
 
     override fun onDestroyView() {
