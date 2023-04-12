@@ -9,6 +9,7 @@
     android:orientation="vertical"
     tools:context=".ui.add_movie.AddItemFragment">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,9 +50,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
+            android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/add_title_container"
                 android:layout_width="match_parent"
@@ -149,8 +155,12 @@
                     android:textColorHint="@color/white"
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
-
-
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
             <ImageView
                 android:id="@+id/result_image"
                 android:layout_width="150dp"
@@ -177,10 +187,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/save_movie_btn"
                 android:textSize="12sp" />
         </LinearLayout>
+        </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>
