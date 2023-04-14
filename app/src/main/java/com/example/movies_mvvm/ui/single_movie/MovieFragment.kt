@@ -31,9 +31,9 @@ class MovieFragment : Fragment() {
         _binding = MovieLayoutBinding.inflate(
             inflater, container, false
         )
-        val rotationImage: Animator =
-            ObjectAnimator.ofFloat(binding.moviePoster, "rotationY", 0f, 360f).setDuration(2000)
-        rotationImage.start()
+        val translationImage: Animator =
+            ObjectAnimator.ofFloat(binding.moviePoster, "translationY", -150f, 0f).setDuration(2000)
+        translationImage.start()
         binding.editButton.setOnClickListener {
             findNavController().navigate(R.id.action_movieFragment_to_editItemFragment)
         }
