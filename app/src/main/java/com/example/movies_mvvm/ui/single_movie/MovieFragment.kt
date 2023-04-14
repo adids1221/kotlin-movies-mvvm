@@ -1,6 +1,7 @@
 package com.example.movies_mvvm.ui.single_movie
 
 import android.animation.Animator
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,7 +34,17 @@ class MovieFragment : Fragment() {
         )
         val translationImage: Animator =
             ObjectAnimator.ofFloat(binding.moviePoster, "translationY", -150f, 0f).setDuration(2000)
-        translationImage.start()
+        val translationTitle: Animator =
+            ObjectAnimator.ofFloat(binding.movieTitle, "translationX", 150f, 0f).setDuration(2000)
+        val translationDesc: Animator =
+            ObjectAnimator.ofFloat(binding.movieDescription, "translationY", 150f, 0f).setDuration(2000)
+        val rotationRating: Animator =
+            ObjectAnimator.ofFloat(binding.itemRatingBar, "rotationX", 0f, 360f).setDuration(2000)
+        val rotationReleaseDate: Animator =
+            ObjectAnimator.ofFloat(binding.movieReleaseDate, "rotationX", 0f, -360f).setDuration(2000)
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(translationImage,translationTitle,translationDesc,rotationRating,rotationReleaseDate)
+        animatorSet.start()
         binding.editButton.setOnClickListener {
             findNavController().navigate(R.id.action_movieFragment_to_editItemFragment)
         }
