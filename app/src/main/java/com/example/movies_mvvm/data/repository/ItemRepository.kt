@@ -19,19 +19,19 @@ class ItemRepository(application: Application) {
 
     fun getItems() = itemDao?.getItems()
 
-    fun addItem(item: Item) {
+    suspend fun addItem(item: Item) {
         itemDao?.addItem(item)
     }
 
-    fun updateItem(item: Item) {
+    suspend fun updateItem(item: Item) {
         itemDao?.updateItem(item)
     }
 
-    fun removeItem(item: Item) {
+    suspend fun removeItem(item: Item) {
         itemDao?.removeItem(item)
     }
 
-    fun removeAll() {
+    suspend fun removeAll() {
         itemDao?.removeAll()
     }
 

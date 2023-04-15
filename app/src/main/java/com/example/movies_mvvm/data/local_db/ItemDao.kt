@@ -8,13 +8,13 @@ import com.example.movies_mvvm.data.model.Item
 interface ItemDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addItem(item: Item)
+    suspend fun addItem(item: Item)
 
     @Delete
-    fun removeItem(vararg items: Item)
+    suspend fun removeItem(vararg items: Item)
 
     @Update
-    fun updateItem(item: Item)
+    suspend fun updateItem(item: Item)
 
     @Query("SELECT * from movies_table ORDER BY title ASC")
     fun getItems(): LiveData<List<Item>>
@@ -23,5 +23,5 @@ interface ItemDao {
     fun getItemByTitle(title: String?): Item
 
     @Query("DELETE from movies_table")
-    fun removeAll()
+    suspend fun removeAll()
 }
