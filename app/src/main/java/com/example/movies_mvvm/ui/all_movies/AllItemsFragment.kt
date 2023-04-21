@@ -32,6 +32,13 @@ class AllItemsFragment : Fragment() {
         _binding = AllItemsLayoutBinding.inflate(
             inflater, container, false
         )
+        binding.infoButton.setOnClickListener {
+            AlertDialog.Builder(binding.root.context)
+                .setTitle(getString(R.string.info_alert_title))
+                .setMessage(getString(R.string.info_alert_instructions))
+                .setPositiveButton("Okay") { _, _ -> }
+                .show()
+        }
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_allItemsFragment_to_addItemFragment)
         }

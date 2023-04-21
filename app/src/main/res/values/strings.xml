@@ -16,6 +16,6 @@
     <string name="required_rating">Required, If the movie isn\'t release yet leave this filed empty</string>
     <string name="insert_image">Pick Image</string>
     <string name="generic_btn">Generic Btn</string>
-
-
+    <string name="info_alert_title">Touch Gestures</string>
+    <string name="info_alert_instructions">On item press - movie fragment\nOn item long press - edit movie\nOn item swipe right - remove movie</string>
 </resources>
