@@ -79,8 +79,8 @@ fun getDateSetListener(
         val myFormat = "dd/MM/yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.FRENCH)
         val ratingContainerText = mapOf(
-            true to "Rating is disabled, the movie isn't release yet!",
-            false to "Rating isn't required, default value is 0"
+            true to binding.root.context.getString(R.string.rating_disabled_helper_text),
+            false to binding.root.context.getString(R.string.rating_helper_text)
         )
         when (binding) {
             is AddItemLayoutBinding -> {
