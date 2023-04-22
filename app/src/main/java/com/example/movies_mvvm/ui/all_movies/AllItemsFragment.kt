@@ -68,7 +68,6 @@ class AllItemsFragment : Fragment() {
 
                 })
             binding.recycler.layoutManager = LinearLayoutManager(requireContext())
-
         }
 
         ItemTouchHelper(object : ItemTouchHelper.Callback() {
