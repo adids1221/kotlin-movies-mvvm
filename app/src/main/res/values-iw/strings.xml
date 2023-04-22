@@ -25,4 +25,17 @@
     <string name="remove_all_confirmation_message">האם אתה בטוח שברצונך למחוק את כל הסרטים?</string>
     <string name="remove_all_confirmation_pos">מחק הכל</string>
     <string name="remove_all_confirmation_toast">סרטים נמחקו בהצלחה</string>
+    <string name="rating_disabled_helper_text">הסרט עדיין לא יצא, דירוג הסרט מנוטרל</string>
+    <string name="rating_helper_text">דירוג הסרט אינו חובה, הערך הדיפולטיבי הוא 0</string>
+    <string name="title_helper_text">שם סרט לא תקין</string>
+    <string name="release_date_helper_text">תאריך שיחרור לא תקין</string>
+    <string name="description_helper_text">תיאור סרט לא תקין</string>
+    <string name="invalid_form_title">כותרת</string>
+    <string name="invalid_form_release_date_required">תאריך שיחרור הינו חובה</string>
+    <string name="invalid_form_release_date">תאריך שיחרור</string>
+    <string name="invalid_form_description">תיאור הסרט</string>
+    <string name="invalid_form_rating">דירוג הסרט</string>
+    <string name="invalid_form_poster">פוסטר הסרט חסר</string>
+    <string name="invalid_form_alert_title">הטופס אינו ולידי</string>
+    <string name="invalid_form_alert_positive_btn">אוקיי</string>
 </resources>
