@@ -18,4 +18,26 @@
     <string name="generic_btn">Generic Btn</string>
     <string name="info_alert_title">Touch Gestures</string>
     <string name="info_alert_instructions">On item press - movie fragment\nOn item long press - edit movie\nOn item swipe right - remove movie</string>
+    <string name="remove_confirmation_title">Remove Confirmation</string>
+    <string name="remove_confirmation_message">Are you sure you want to remove this movie?</string>
+    <string name="remove_confirmation_pos">Remove</string>
+    <string name="confirmation_dialog_cancel">Cancel</string>
+    <string name="remove_all_confirmation_title">Remove All Confirmation</string>
+    <string name="remove_all_confirmation_message">Are you sure you want to remove all movies?</string>
+    <string name="remove_all_confirmation_pos">Remove All</string>
+    <string name="remove_all_confirmation_toast">Movies removed successfully</string>
+    <string name="rating_disabled_helper_text">"Rating is disabled, the movie isn't release yet!"</string>
+    <string name="rating_helper_text">"Rating isn't required, default value is 0"</string>
+    <string name="title_helper_text">"Invalid Movie Title"</string>
+    <string name="release_date_helper_text">"Invalid Movie Release Date"</string>
+    <string name="description_helper_text">"Invalid Movie Description"</string>
+    <string name="invalid_form_title">Title</string>
+    <string name="invalid_form_release_date_required">Release Date Is Required!</string>
+    <string name="invalid_form_release_date">Release Date</string>
+    <string name="invalid_form_description">Description</string>
+    <string name="invalid_form_rating">Rating</string>
+    <string name="invalid_form_poster">Poster: Missing Movie Poster</string>
+    <string name="invalid_form_alert_title">Invalid Form</string>
+    <string name="invalid_form_alert_positive_btn">Okay</string>
+
 </resources>
