@@ -70,13 +70,17 @@ class EditItemFragment : Fragment() {
             )
         }!!
 
-        binding.addMovieTitle.addTitleFocusListener(binding.addTitleContainer)
+        val context = binding.root.context
+
+        binding.addMovieTitle.addTitleFocusListener(context, binding.addTitleContainer)
         binding.addMovieReleaseDate.addReleaseDateFocusListener(
+            context,
             datePickerDialog,
             binding.addReleaseDateContainer
         )
-        binding.addMovieDescription.addDescriptionFocusListener(binding.addDescriptionContainer)
+        binding.addMovieDescription.addDescriptionFocusListener(context, binding.addDescriptionContainer)
         binding.addMovieRating.addRatingFocusListener(
+            context,
             binding.addMovieReleaseDate,
             binding.addRatingContainer
         )

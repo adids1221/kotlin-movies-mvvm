@@ -67,13 +67,20 @@ class AddItemFragment : Fragment() {
             )
         }!!
 
-        binding.addMovieTitle.addTitleFocusListener(binding.addTitleContainer)
+        val context = binding.root.context
+
+        binding.addMovieTitle.addTitleFocusListener(context, binding.addTitleContainer)
         binding.addMovieReleaseDate.addReleaseDateFocusListener(
+            context,
             datePickerDialog,
             binding.addReleaseDateContainer
         )
-        binding.addMovieDescription.addDescriptionFocusListener(binding.addDescriptionContainer)
+        binding.addMovieDescription.addDescriptionFocusListener(
+            context,
+            binding.addDescriptionContainer
+        )
         binding.addMovieRating.addRatingFocusListener(
+            context,
             binding.addMovieReleaseDate,
             binding.addRatingContainer
         )
@@ -114,7 +121,7 @@ class AddItemFragment : Fragment() {
             viewModel.addItem(newMovie)
             findNavController().navigate(R.id.action_addItemFragment_to_allItemsFragment)
         } else {
-            invalidForm(isDateSelected, imageUri?.let { imageUri.toString() } ?: null, binding)
+            invalidForm(isDateSelected, imageUri?.let { imageUri.toString() }, binding)
         }
     }
 
