@@ -54,8 +54,8 @@ class EditItemFragment : Fragment() {
             inflater, container, false
         )
 
-        binding.fragmentTitle!!.text = getString(R.string.edit_item_page_title)
-        binding.saveBtn!!.text = getString(R.string.update_movie_btn)
+        binding.fragmentTitle.text = getString(R.string.edit_item_page_title)
+        binding.saveBtn.text = getString(R.string.update_movie_btn)
 
         val listener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             isDateSelected = true
@@ -73,13 +73,17 @@ class EditItemFragment : Fragment() {
             )
         }!!
 
-        binding.addMovieTitle.addTitleFocusListener(binding.addTitleContainer)
+        val context = binding.root.context
+
+        binding.addMovieTitle.addTitleFocusListener(context, binding.addTitleContainer)
         binding.addMovieReleaseDate.addReleaseDateFocusListener(
+            context,
             datePickerDialog,
             binding.addReleaseDateContainer
         )
-        binding.addMovieDescription.addDescriptionFocusListener(binding.addDescriptionContainer)
+        binding.addMovieDescription.addDescriptionFocusListener(context, binding.addDescriptionContainer)
         binding.addMovieRating.addRatingFocusListener(
+            context,
             binding.addMovieReleaseDate,
             binding.addRatingContainer
         )
@@ -88,7 +92,7 @@ class EditItemFragment : Fragment() {
             pickImageLauncher.launch(arrayOf("image/*"))
         }
 
-        binding.saveBtn!!.setOnClickListener {
+        binding.saveBtn.setOnClickListener {
             submitForm(isDateSelected)
         }
 

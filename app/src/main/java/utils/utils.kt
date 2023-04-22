@@ -2,9 +2,11 @@ package utils
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import androidx.viewbinding.ViewBinding
 import com.example.movies_mvvm.databinding.AddItemLayoutBinding
 import android.widget.EditText
+import com.example.movies_mvvm.R
 import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,16 +29,16 @@ fun getRating(rating: Double): Float {
     return (numStars * stepSize).toFloat()
 }
 
-fun validTitle(title: String): String? {
-    return if (title.isEmpty()) "Invalid Movie Title" else null
+fun validTitle(context: Context, title: String): String? {
+    return if (title.isEmpty()) context.getString(R.string.title_helper_text) else null
 }
 
-fun validReleaseDate(releaseDate: String): String? {
-    return if (releaseDate.isEmpty()) "Invalid Movie Release Date" else null
+fun validReleaseDate(context: Context, releaseDate: String): String? {
+    return if (releaseDate.isEmpty()) context.getString(R.string.release_date_helper_text) else null
 }
 
-fun validDescription(description: String): String? {
-    return if (description.isEmpty()) "Invalid Movie Description" else null
+fun validDescription(context: Context, description: String): String? {
+    return if (description.isEmpty()) context.getString(R.string.description_helper_text) else null
 }
 
 fun isFutureDate(dateStr: String): Boolean {
@@ -50,15 +52,20 @@ fun isFutureDate(dateStr: String): Boolean {
     }
 }
 
-fun validRating(movieRating: String, isEnabled: Boolean, releaseDate: String): String? {
+fun validRating(
+    context: Context,
+    movieRating: String,
+    isEnabled: Boolean,
+    releaseDate: String
+): String? {
     val rating = movieRating.toDoubleOrNull()
     if (isEnabled) {
         if (rating == null && isFutureDate(releaseDate)) {
             return null
         } else if (rating != null && isFutureDate(releaseDate)) {
-            return "Movie that isn't released yet can't have rating!"
+            return context.getString(R.string.rating_disabled_helper_text)
         } else if (rating != null && (rating < 0 || rating > 10)) {
-            return "Invalid Movie Rating, rating is between 0 to 10"
+            return context.getString(R.string.rating_helper_text)
         }
     }
     return null
@@ -97,10 +104,14 @@ fun validFormFields(binding: ViewBinding, isDateSelected: Boolean, movieData: Mo
     when (binding) {
         is AddItemLayoutBinding -> {
             val (title, releaseDate, description, ratingText, imageSource) = movieData
-            binding.addTitleContainer.helperText = title?.let { validTitle(it) }
-            binding.addReleaseDateContainer.helperText = releaseDate?.let { validReleaseDate(it) }
-            binding.addDescriptionContainer.helperText = description?.let { validDescription(it) }
+            val context = binding.root.context
+            binding.addTitleContainer.helperText = title?.let { validTitle(context, it) }
+            binding.addReleaseDateContainer.helperText =
+                releaseDate?.let { validReleaseDate(context, it) }
+            binding.addDescriptionContainer.helperText =
+                description?.let { validDescription(context, it) }
             binding.addRatingContainer.helperText = validRating(
+                context,
                 ratingText!!,
                 binding.addMovieRating.isEnabled,
                 releaseDate!!
@@ -122,52 +133,54 @@ fun invalidForm(isDateSelected: Boolean, imageUri: String?, binding: ViewBinding
     val errorMessage = mutableListOf<String>()
     when (binding) {
         is AddItemLayoutBinding -> {
+            val context = binding.root.context
             binding.addTitleContainer.helperText?.let {
-                errorMessage.add("Title: $it")
+                errorMessage.add("${context.getString(R.string.invalid_form_title)}: $it")
             }
 
             if (!isDateSelected) {
-                errorMessage.add("Release Date Is Required!")
+                errorMessage.add(context.getString(R.string.invalid_form_release_date_required))
             } else {
                 binding.addReleaseDateContainer.helperText?.let {
-                    errorMessage.add("Release Date: $it")
+                    errorMessage.add("${context.getString(R.string.invalid_form_release_date)}: $it")
                 }
             }
 
             binding.addDescriptionContainer.helperText?.let {
-                errorMessage.add("Description: $it")
+                errorMessage.add("${context.getString(R.string.invalid_form_description)}: $it")
             }
 
             binding.addRatingContainer.helperText?.let {
-                errorMessage.add("Rating: $it")
+                errorMessage.add("${context.getString(R.string.invalid_form_rating)}: $it")
             }
 
             if (imageUri == null) {
-                errorMessage.add("Poster: Missing Movie Poster")
+                errorMessage.add(context.getString(R.string.invalid_form_poster))
             }
 
             val message = errorMessage.joinToString(separator = "\n")
 
-            AlertDialog.Builder(binding.root.context)
-                .setTitle("Invalid Form")
+            AlertDialog.Builder(context)
+                .setTitle(context.getString(R.string.invalid_form_alert_title))
                 .setMessage(message)
-                .setPositiveButton("Okay") { _, _ -> }
+                .setPositiveButton(context.getString(R.string.invalid_form_alert_positive_btn)) { _, _ -> }
                 .show()
         }
     }
 }
 
 
-fun EditText.addTitleFocusListener(titleContainer: TextInputLayout) {
+fun EditText.addTitleFocusListener(context: Context, titleContainer: TextInputLayout) {
     this.setOnFocusChangeListener { _, focused ->
         if (!focused) {
-            val helperText = validTitle(this.text.toString())
+            val helperText = validTitle(context, this.text.toString())
             titleContainer.helperText = helperText
         }
     }
 }
 
 fun EditText.addReleaseDateFocusListener(
+    context: Context,
     datePickerDialog: DatePickerDialog?,
     releaseDateContainer: TextInputLayout
 ) {
@@ -175,25 +188,30 @@ fun EditText.addReleaseDateFocusListener(
         if (focused) {
             datePickerDialog?.show()
         } else {
-            val helperText = validReleaseDate(this.text.toString())
+            val helperText = validReleaseDate(context, this.text.toString())
             releaseDateContainer.helperText = helperText
         }
     }
 }
 
-fun EditText.addDescriptionFocusListener(descriptionContainer: TextInputLayout) {
+fun EditText.addDescriptionFocusListener(context: Context, descriptionContainer: TextInputLayout) {
     this.setOnFocusChangeListener { _, focused ->
         if (!focused) {
-            val helperText = validDescription(this.text.toString())
+            val helperText = validDescription(context, this.text.toString())
             descriptionContainer.helperText = helperText
         }
     }
 }
 
-fun EditText.addRatingFocusListener(releaseDate: EditText, ratingContainer: TextInputLayout) {
+fun EditText.addRatingFocusListener(
+    context: Context,
+    releaseDate: EditText,
+    ratingContainer: TextInputLayout
+) {
     this.setOnFocusChangeListener { view, focused ->
         if (!focused) {
             val helperText = validRating(
+                context,
                 this.text.toString(),
                 this.isEnabled,
                 releaseDate.text.toString()

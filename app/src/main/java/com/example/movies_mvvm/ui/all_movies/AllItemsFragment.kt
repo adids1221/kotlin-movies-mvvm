@@ -83,14 +83,14 @@ class AllItemsFragment : Fragment() {
                     (binding.recycler.adapter as ItemAdapter).itemAt(viewHolder.adapterPosition)
 
                 builder.apply {
-                    setTitle("Remove Confirmation")
-                    setMessage("Are you sure you want to remove this movie?")
+                    setTitle(getString(R.string.remove_confirmation_title))
+                    setMessage(getString(R.string.remove_confirmation_message))
                     setCancelable(false)
-                    setPositiveButton("Remove") { _, _ ->
+                    setPositiveButton(getString(R.string.remove_confirmation_pos)) { _, _ ->
                         viewModel.removeItem(item)
                         binding.recycler.adapter!!.notifyItemRemoved(viewHolder.adapterPosition)
                     }
-                    setNegativeButton("Cancel") { _, _ ->
+                    setNegativeButton(getString(R.string.confirmation_dialog_cancel)) { _, _ ->
                         binding.recycler.adapter!!.notifyItemChanged(viewHolder.adapterPosition)
                     }
 
@@ -111,18 +111,18 @@ class AllItemsFragment : Fragment() {
         if (item.itemId == R.id.action_remove_all) {
             val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
             builder.apply {
-                setTitle("Remove All Confirmation")
-                setMessage("Are you sure you want to remove all movies?")
+                setTitle(getString(R.string.remove_all_confirmation_title))
+                setMessage(getString(R.string.remove_all_confirmation_message))
                 setCancelable(false)
-                setPositiveButton("Remove All") { _, _ ->
+                setPositiveButton(getString(R.string.remove_all_confirmation_pos)) { _, _ ->
                     viewModel.removeAll()
                     Toast.makeText(
                         requireContext(),
-                        "Movies removed successfully",
+                        getString(R.string.remove_all_confirmation_toast),
                         Toast.LENGTH_LONG
                     ).show()
                 }
-                setNegativeButton("Cancel") { _, _ ->
+                setNegativeButton(getString(R.string.confirmation_dialog_cancel)) { _, _ ->
 
                 }
 
