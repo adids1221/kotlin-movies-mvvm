@@ -15,8 +15,6 @@ class ItemRepository(application: Application) {
         itemDao = db.itemsDao()
     }
 
-    fun getItemByTitle(title: String) = itemDao?.getItemByTitle(title)
-
     fun getItems() = itemDao?.getItems()
 
     suspend fun addItem(item: Item) {
