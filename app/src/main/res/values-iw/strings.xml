@@ -38,4 +38,6 @@
     <string name="invalid_form_poster">פוסטר הסרט חסר</string>
     <string name="invalid_form_alert_title">הטופס אינו ולידי</string>
     <string name="invalid_form_alert_positive_btn">אוקיי</string>
+    <string name="info_alert_title">מאפייני לחיצות:</string>
+    <string name="info_alert_instructions">לחיצה על סרט - מעבר לעמוד הסרט \\n בעת לחיצה ארוכה - מעבר לעריכת הסרט\\n - בעת ביצוע פעולת החלקה ימינה - מחיקה של הסרט</string>
 </resources>
