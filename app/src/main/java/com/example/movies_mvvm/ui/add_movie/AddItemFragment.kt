@@ -50,6 +50,8 @@ class AddItemFragment : Fragment() {
         _binding = AddItemLayoutBinding.inflate(
             inflater, container, false
         )
+        binding.fragmentTitle.text = getString(R.string.add_item_page_title)
+        binding.saveBtn.text = getString(R.string.save_movie_btn)
 
         val listener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             isDateSelected = true
@@ -89,7 +91,7 @@ class AddItemFragment : Fragment() {
             pickImageLauncher.launch(arrayOf("image/*"))
         }
 
-        binding.addItemBtn.setOnClickListener {
+        binding.saveBtn.setOnClickListener {
             submitForm(isDateSelected)
         }
 

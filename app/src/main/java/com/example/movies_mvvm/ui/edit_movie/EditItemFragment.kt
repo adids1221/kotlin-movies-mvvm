@@ -15,14 +15,14 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.movies_mvvm.R
 import com.example.movies_mvvm.data.model.Item
-import com.example.movies_mvvm.databinding.EditItemLayoutBinding
+import com.example.movies_mvvm.databinding.AddItemLayoutBinding
 import com.example.movies_mvvm.ui.ItemsViewModel
 import utils.*
 import java.util.*
 
 class EditItemFragment : Fragment() {
 
-    private var _binding: EditItemLayoutBinding? = null
+    private var _binding: AddItemLayoutBinding? = null
     private val binding get() = _binding!!
     private var imageUri: Uri? = null
     private var initialImageUri: String? = null
@@ -50,9 +50,12 @@ class EditItemFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = EditItemLayoutBinding.inflate(
+        _binding = AddItemLayoutBinding.inflate(
             inflater, container, false
         )
+
+        binding.fragmentTitle.text = getString(R.string.edit_item_page_title)
+        binding.saveBtn.text = getString(R.string.update_movie_btn)
 
         val listener = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             isDateSelected = true
@@ -89,7 +92,7 @@ class EditItemFragment : Fragment() {
             pickImageLauncher.launch(arrayOf("image/*"))
         }
 
-        binding.updateItemBtn.setOnClickListener {
+        binding.saveBtn.setOnClickListener {
             submitForm(isDateSelected)
         }
 

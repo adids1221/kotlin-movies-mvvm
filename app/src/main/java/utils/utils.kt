@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.content.Context
 import androidx.viewbinding.ViewBinding
 import com.example.movies_mvvm.databinding.AddItemLayoutBinding
-import com.example.movies_mvvm.databinding.EditItemLayoutBinding
 import android.widget.EditText
 import com.example.movies_mvvm.R
 import com.google.android.material.textfield.TextInputLayout
@@ -91,18 +90,6 @@ fun getDateSetListener(
                     val isFuture = isFutureDate(text.toString())
                     binding.addMovieRating.apply {
                         isEnabled = !isFuture
-                        setText("0")
-                    }
-                    binding.addRatingContainer.helperText = ratingContainerText[isFuture]
-                }
-            }
-            is EditItemLayoutBinding -> {
-                binding.addMovieReleaseDate.apply {
-                    setText(sdf.format(calendar.time))
-                    clearFocus()
-                    val isFuture = isFutureDate(text.toString())
-                    binding.addMovieRating.apply {
-                        isEnabled = !isFuture
                         if (isFuture || text.toString().isEmpty()) setText("0")
                     }
                     binding.addRatingContainer.helperText = ratingContainerText[isFuture]
@@ -115,26 +102,6 @@ fun getDateSetListener(
 fun validFormFields(binding: ViewBinding, isDateSelected: Boolean, movieData: MovieData): Boolean {
     var result = false
     when (binding) {
-        is EditItemLayoutBinding -> {
-            val (title, releaseDate, description, ratingText) = movieData
-            val context = binding.root.context
-            binding.addTitleContainer.helperText = title?.let { validTitle(context, it) }
-            binding.addReleaseDateContainer.helperText =
-                releaseDate?.let { validReleaseDate(context, it) }
-            binding.addDescriptionContainer.helperText =
-                description?.let { validDescription(context, it) }
-            binding.addRatingContainer.helperText = validRating(
-                context,
-                ratingText!!,
-                binding.addMovieRating.isEnabled,
-                releaseDate!!
-            )
-            val isValidTitle = binding.addTitleContainer.helperText == null
-            val isValidDate = binding.addReleaseDateContainer.helperText == null && isDateSelected
-            val isValidDescription = binding.addDescriptionContainer.helperText == null
-            val isValidRating = binding.addRatingContainer.helperText == null
-            result = isValidTitle && isValidDate && isValidDescription && isValidRating
-        }
         is AddItemLayoutBinding -> {
             val (title, releaseDate, description, ratingText, imageSource) = movieData
             val context = binding.root.context
@@ -165,39 +132,6 @@ fun validFormFields(binding: ViewBinding, isDateSelected: Boolean, movieData: Mo
 fun invalidForm(isDateSelected: Boolean, imageUri: String?, binding: ViewBinding) {
     val errorMessage = mutableListOf<String>()
     when (binding) {
-        is EditItemLayoutBinding -> {
-            val context = binding.root.context
-            binding.addTitleContainer.helperText?.let {
-                errorMessage.add("${context.getString(R.string.invalid_form_title)}: $it")
-            }
-
-            if (!isDateSelected) {
-                errorMessage.add(context.getString(R.string.invalid_form_release_date_required))
-            } else {
-                binding.addReleaseDateContainer.helperText?.let {
-                    errorMessage.add("${context.getString(R.string.invalid_form_release_date)}: $it")
-                }
-            }
-
-            binding.addDescriptionContainer.helperText?.let {
-                errorMessage.add("${context.getString(R.string.invalid_form_description)}: $it")
-            }
-
-            binding.addRatingContainer.helperText?.let {
-                errorMessage.add("${context.getString(R.string.invalid_form_rating)}: $it")
-            }
-
-            if (imageUri == null)
-                errorMessage.add(context.getString(R.string.invalid_form_poster))
-
-            val message = errorMessage.joinToString(separator = "\n")
-
-            AlertDialog.Builder(context)
-                .setTitle(context.getString(R.string.invalid_form_alert_title))
-                .setMessage(message)
-                .setPositiveButton(context.getString(R.string.invalid_form_alert_positive_btn)) { _, _ -> }
-                .show()
-        }
         is AddItemLayoutBinding -> {
             val context = binding.root.context
             binding.addTitleContainer.helperText?.let {

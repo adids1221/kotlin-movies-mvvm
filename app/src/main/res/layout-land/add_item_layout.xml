@@ -30,13 +30,13 @@
 
 
         <TextView
-            android:id="@+id/add_item_title"
+            android:id="@+id/fragment_title"
             android:layout_width="338dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="30dp"
             android:layout_weight="1"
-            android:text="@string/add_item_page_title"
+            android:text=""
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="30sp"
@@ -188,12 +188,12 @@
 
 
                 <Button
-                    android:id="@+id/add_item_btn"
+                    android:id="@+id/save_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:text="@string/save_movie_btn"
+                    android:text=""
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
