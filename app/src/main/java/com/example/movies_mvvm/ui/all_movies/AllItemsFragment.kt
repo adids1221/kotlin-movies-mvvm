@@ -36,7 +36,7 @@ class AllItemsFragment : Fragment() {
             AlertDialog.Builder(binding.root.context)
                 .setTitle(getString(R.string.info_alert_title))
                 .setMessage(getString(R.string.info_alert_instructions))
-                .setPositiveButton("Okay") { _, _ -> }
+                .setPositiveButton(getString(R.string.invalid_form_alert_positive_btn)) { _, _ -> }
                 .show()
         }
         binding.floatingActionButton.setOnClickListener {
