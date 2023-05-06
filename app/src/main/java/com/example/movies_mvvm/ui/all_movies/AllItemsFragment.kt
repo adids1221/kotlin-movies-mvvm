@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movies_mvvm.R
 import com.example.movies_mvvm.databinding.AllItemsLayoutBinding
 import com.example.movies_mvvm.ui.ItemsViewModel
+import com.google.android.material.chip.Chip
+
 
 class AllItemsFragment : Fragment() {
 
@@ -21,6 +23,21 @@ class AllItemsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ItemsViewModel by activityViewModels()
+
+    val categories = arrayOf(
+        "Action",
+        "Romance",
+        "Thriller",
+        "SciFi",
+        "Comedy",
+        "Fantasy",
+        "Western",
+        "Animation",
+        "Anime",
+        "Horror",
+        "Adventure"
+    )
+    var selectedChipIndex = -1 // Default value to indicate no chip is selected initially
 
 
     override fun onCreateView(
@@ -41,6 +58,29 @@ class AllItemsFragment : Fragment() {
         }
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_allItemsFragment_to_addItemFragment)
+        }
+
+
+        for (i in categories.indices) {
+            val chip = Chip(requireContext())
+            chip.id = i
+            chip.isCheckable = true
+            chip.text = categories[i]
+
+
+            chip.setOnClickListener {
+                if (selectedChipIndex != -1) {
+                    val previousChip =
+                        binding.categoriesChipsGroup.getChildAt(selectedChipIndex) as Chip
+                    previousChip.isChecked = false
+                }
+
+                val selectedChip = it as Chip
+                selectedChip.isChecked = true
+                selectedChipIndex = i
+            }
+
+            binding.categoriesChipsGroup.addView(chip)
         }
         return binding.root
     }
