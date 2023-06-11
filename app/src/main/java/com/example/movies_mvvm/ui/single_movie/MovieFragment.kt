@@ -13,14 +13,16 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.movies_mvvm.R
 import com.example.movies_mvvm.databinding.MovieLayoutBinding
-import com.example.movies_mvvm.ui.ItemsViewModel
+import com.example.movies_mvvm.ui.MoviesViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import utils.Constants
 import utils.getRating
 
-
+@AndroidEntryPoint
 class MovieFragment : Fragment() {
     private var _binding: MovieLayoutBinding? = null
 
-    val viewModel: ItemsViewModel by activityViewModels()
+    val viewModel: MoviesViewModel by activityViewModels()
 
     private val binding get() = _binding!!
 
@@ -37,13 +39,21 @@ class MovieFragment : Fragment() {
         val translationTitle: Animator =
             ObjectAnimator.ofFloat(binding.movieTitle, "translationX", 150f, 0f).setDuration(2000)
         val translationDesc: Animator =
-            ObjectAnimator.ofFloat(binding.movieDescription, "translationY", 150f, 0f).setDuration(2000)
+            ObjectAnimator.ofFloat(binding.movieDescription, "translationY", 150f, 0f)
+                .setDuration(2000)
         val rotationRating: Animator =
             ObjectAnimator.ofFloat(binding.itemRatingBar, "rotationX", 0f, 360f).setDuration(2000)
         val rotationReleaseDate: Animator =
-            ObjectAnimator.ofFloat(binding.movieReleaseDate, "rotationX", 0f, -360f).setDuration(2000)
+            ObjectAnimator.ofFloat(binding.movieReleaseDate, "rotationX", 0f, -360f)
+                .setDuration(2000)
         val animatorSet = AnimatorSet()
-        animatorSet.playTogether(translationImage,translationTitle,translationDesc,rotationRating,rotationReleaseDate)
+        animatorSet.playTogether(
+            translationImage,
+            translationTitle,
+            translationDesc,
+            rotationRating,
+            rotationReleaseDate
+        )
         animatorSet.start()
         binding.editButton.setOnClickListener {
             findNavController().navigate(R.id.action_movieFragment_to_editItemFragment)
@@ -60,11 +70,11 @@ class MovieFragment : Fragment() {
         viewModel.chosenItem.observe(viewLifecycleOwner) {
             binding.movieTitle.text = it.title
             binding.movieReleaseDate.text = it.releaseDate
-            binding.movieDescription.text = it.description
-            binding.itemRatingBar.rating = it.rating?.let { it1 -> getRating(it1) }!!
+            binding.movieDescription.text = it.overview
+            binding.itemRatingBar.rating = it.voteAverage?.let { it1 -> getRating(it1) }!!
             Glide
                 .with(requireContext())
-                .load(it.poster)
+                .load("${Constants.BASE_URL}${it.posterPath}")
                 .centerCrop()
                 .into(binding.moviePoster)
         }

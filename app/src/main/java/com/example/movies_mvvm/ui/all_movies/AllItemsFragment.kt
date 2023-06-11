@@ -12,15 +12,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies_mvvm.R
 import com.example.movies_mvvm.databinding.AllItemsLayoutBinding
-import com.example.movies_mvvm.ui.ItemsViewModel
+import com.example.movies_mvvm.ui.MoviesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AllItemsFragment : Fragment() {
 
     private var _binding: AllItemsLayoutBinding? = null
 
     private val binding get() = _binding!!
 
-    private val viewModel: ItemsViewModel by activityViewModels()
+    private val viewModel: AllMoviesViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -50,7 +52,7 @@ class AllItemsFragment : Fragment() {
 
         viewModel.items?.observe(viewLifecycleOwner) {
             binding.recycler.adapter =
-                ItemAdapter(it, object : ItemAdapter.ItemListener {
+                MovieAdapter(it, object : MovieAdapter.ItemListener {
                     override fun onItemClicked(index: Int) {
                         viewModel.setItem(it[index])
                         findNavController().navigate(
@@ -87,7 +89,7 @@ class AllItemsFragment : Fragment() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
                 val item =
-                    (binding.recycler.adapter as ItemAdapter).itemAt(viewHolder.adapterPosition)
+                    (binding.recycler.adapter as MovieAdapter).itemAt(viewHolder.adapterPosition)
 
                 builder.apply {
                     setTitle(getString(R.string.remove_confirmation_title))
